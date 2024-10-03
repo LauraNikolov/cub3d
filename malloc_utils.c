@@ -51,7 +51,7 @@ void gc_double_add(t_garbage_collector *gc, void **ptr)
     i = 0;
     while(ptr[i])
     {
-        gc_add(gc, ptr[i]);
+        gc_add(gc, (void *)ptr[i]);
         i++;
     }
     gc_add(gc, (void *)ptr);
@@ -65,7 +65,7 @@ void gc_add(t_garbage_collector *gc, void *ptr)
     node = malloc(sizeof(t_collector_node));
     if (!node)
         return;
-    
+
     node->ptr = ptr; 
     node->next = gc->head;
     gc->head = node;

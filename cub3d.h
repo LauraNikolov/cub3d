@@ -6,7 +6,7 @@
 /*   By: lnicolof <lnicolof@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/02 15:20:33 by lnicolof          #+#    #+#             */
-/*   Updated: 2024/10/02 19:57:06 by lnicolof         ###   ########.fr       */
+/*   Updated: 2024/10/03 17:51:11 by lnicolof         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,13 @@ typedef struct s_cub
 	char					*EA;
 	char					**F;
 	char					**C;
+	int						C_R;
+	int						C_G;
+	int						C_B;
+	int						F_R;
+	int						F_G;
+	int						F_B;
+
 }							t_cub;
 
 // gnl
@@ -63,4 +70,9 @@ void						init_data(t_cub *cub, int ac, char **av);
 int							valid_file(char *str, t_cub *cub);
 void						gc_double_add(t_garbage_collector *gc, void **ptr);
 char						*truncate_space(char *src, t_cub *cub);
+
+// str utils
+int							is_overflow(char *str);
+int							clean_exit(char *msg, t_garbage_collector *gc,
+								t_cub *cub);
 #endif
