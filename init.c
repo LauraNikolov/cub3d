@@ -56,64 +56,98 @@ char	**check_rgb(t_cub *cub, char *str)
 	return (strs);
 }
 
-
-int add_rgb(t_cub *cub, char *str)
+int	add_rgb(t_cub *cub, char *str)
 {
-    if(ft_strncmp(str, "F", 1))
-    {
-        if(!is_overflow(cub->F[0]))
-            cub->F_R = ft_atoi(cub->F[0]);
-        else
-            clean_exit("int overflow on F RGB\n", cub->garbage_collector, cub);
-        if(!is_overflow(cub->F[1]))
-            cub->F_G = ft_atoi(cub->F[1]);
-        else
-            clean_exit("int overflow on F RGB\n", cub->garbage_collector, cub);
-        if(!is_overflow(cub->F[2]))
-            cub->F_B = ft_atoi(cub->F[2]);
-        else
-           clean_exit("int overflow on F RGB\n", cub->garbage_collector, cub);
-    }
-
-    else if(ft_strncmp(str, "C", 1))
-    {
-        if(!is_overflow(cub->C[0]))
-            cub->C_R = ft_atoi(cub->C[0]);
-        else
-            clean_exit("int overflow on C RGB\n", cub->garbage_collector, cub);
-        if(!is_overflow(cub->C[1]))
-            cub->C_G = ft_atoi(cub->C[1]);
-        else
-            clean_exit("int overflow on C RGB\n", cub->garbage_collector, cub);
-        if(!is_overflow(cub->C[2]))
-            cub->C_B = ft_atoi(cub->C[2]);
-        else
-            clean_exit("int overflow on C RGB\n", cub->garbage_collector, cub);
-    }
-    return(0);
+	if (ft_strncmp(str, "F", 1))
+	{
+		if (!is_overflow(cub->F[0]))
+			cub->F_R = ft_atoi(cub->F[0]);
+		else
+			clean_exit("int overflow on F RGB\n", cub->garbage_collector, cub);
+		if (!is_overflow(cub->F[1]))
+			cub->F_G = ft_atoi(cub->F[1]);
+		else
+			clean_exit("int overflow on F RGB\n", cub->garbage_collector, cub);
+		if (!is_overflow(cub->F[2]))
+			cub->F_B = ft_atoi(cub->F[2]);
+		else
+			clean_exit("int overflow on F RGB\n", cub->garbage_collector, cub);
+	}
+	else if (ft_strncmp(str, "C", 1))
+	{
+		if (!is_overflow(cub->C[0]))
+			cub->C_R = ft_atoi(cub->C[0]);
+		else
+			clean_exit("int overflow on C RGB\n", cub->garbage_collector, cub);
+		if (!is_overflow(cub->C[1]))
+			cub->C_G = ft_atoi(cub->C[1]);
+		else
+			clean_exit("int overflow on C RGB\n", cub->garbage_collector, cub);
+		if (!is_overflow(cub->C[2]))
+			cub->C_B = ft_atoi(cub->C[2]);
+		else
+			clean_exit("int overflow on C RGB\n", cub->garbage_collector, cub);
+	}
+	return (0);
 }
 
 void	collect_data(t_cub *cub, char *str)
 {
-	if (!cub->NO && !ft_strncmp("NO", str, 2))
-		cub->NO = truncate_space(str, cub);
-	else if (!cub->SO && !ft_strncmp("SO", str, 2))
-		cub->SO = truncate_space(str, cub);
-	else if (!cub->WE && !ft_strncmp("WE", str, 2))
-		cub->WE = truncate_space(str, cub);
-	else if (!cub->EA && !ft_strncmp("EA", str, 2))
-		cub->EA = truncate_space(str, cub);
-	else if (!cub->C && !ft_strncmp("C", str, 1))
-    {
-		cub->C = check_rgb(cub, ft_substr(truncate_space(str, cub), 0,
-					ft_strlen(str) - 1));
-    }
-        
-	else if (!cub->F && !ft_strncmp("F", str, 1))
+	if (ft_strncmp("NO", str, 2) && ft_strncmp("SO", str, 2) && ft_strncmp("EA",
+			str, 2) && ft_strncmp("WE", str, 2) && ft_strncmp("F", str, 1)
+		&& ft_strncmp("S", str, 1))
 	{
-		cub->F = check_rgb(cub, ft_substr(truncate_space(str, cub), 0,
-					ft_strlen(str) - 1));
+		if(cub->count_NO == 1 && cub->count_EA == 1 && cub->count_SO == 1 && cub->count_WE == 1)
+			printf("i am the maps : %s\n", str);
+		return ;
 	}
+	if (!ft_strncmp("NO", str, 2))
+	{
+		cub->NO = truncate_space(str, cub);
+		cub->count_NO++;
+	}
+	else if (!ft_strncmp("SO", str, 2))
+	{
+		cub->SO = truncate_space(str, cub);
+		cub->count_SO++;
+	}
+	else if (!ft_strncmp("WE", str, 2))
+	{
+		cub->WE = truncate_space(str, cub);
+		cub->count_WE++;
+	}
+	else if (!ft_strncmp("EA", str, 2))
+	{
+		cub->EA = truncate_space(str, cub);
+		cub->count_EA++;
+	}
+	if (cub->count_EA > 1 || cub->count_NO > 1 || cub->count_WE > 1
+		|| cub->count_WE > 1)
+		clean_exit("Error\nplease enter one path\n", cub->garbage_collector, cub);
+	// else if (!cub->C && !ft_strncmp("C", str, 1))
+	// {
+	// 	cub->C = check_rgb(cub, ft_substr(truncate_space(str, cub), 0,
+	// 				ft_strlen(str) - 1));
+	// }
+	// else if (!cub->F && !ft_strncmp("F", str, 1))
+	// {
+	// 	cub->F = check_rgb(cub, ft_substr(truncate_space(str, cub), 0,
+	// 				ft_strlen(str) - 1));
+	// }
+}
+
+int	ft_is_empty(char *line)
+{
+	int	i;
+
+	i = 0;
+	while (line[i])
+	{
+		if (line[i] != ' ')
+			return (1);
+		i++;
+	}
+	return (0);
 }
 
 void	read_file(t_cub *cub, int fd)
@@ -122,16 +156,19 @@ void	read_file(t_cub *cub, int fd)
 
 	(void)cub;
 	line = NULL;
-    line = malloc(1);
+	line = malloc(1);
 	while (line)
 	{
-        free(line);
+		free(line);
 		line = get_next_line(fd);
 		if (!line)
 			break ;
-		collect_data(cub, line);
+		if (!ft_is_empty(line))
+			continue ;
+		else
+			collect_data(cub, line);
 	}
-    add_rgb(cub, "F");
+	// add_rgb(cub, "F");
 }
 
 void	init_data(t_cub *cub, int ac, char **av)
@@ -140,4 +177,6 @@ void	init_data(t_cub *cub, int ac, char **av)
 	(void)ac;
 	fd = valid_file(av[1], cub);
 	read_file(cub, fd);
+	printf("NO = %s\n, SO = %s\n, EA = %s\n, WE = %s\n", cub->NO, cub->SO,
+		cub->EA, cub->WE);
 }

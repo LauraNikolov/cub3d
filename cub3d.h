@@ -6,7 +6,7 @@
 /*   By: lnicolof <lnicolof@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/02 15:20:33 by lnicolof          #+#    #+#             */
-/*   Updated: 2024/10/03 17:51:11 by lnicolof         ###   ########.fr       */
+/*   Updated: 2024/10/08 14:24:03 by lnicolof         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,10 @@ typedef struct s_cub
 {
 	t_garbage_collector		*garbage_collector;
 	char					*file;
+	int						count_NO;
+	int						count_SO;
+	int						count_EA;
+	int						count_WE;
 	char					*NO;
 	char					*SO;
 	char					*WE;
