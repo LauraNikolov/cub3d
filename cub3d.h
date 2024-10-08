@@ -6,7 +6,7 @@
 /*   By: lnicolof <lnicolof@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/02 15:20:33 by lnicolof          #+#    #+#             */
-/*   Updated: 2024/10/08 14:24:03 by lnicolof         ###   ########.fr       */
+/*   Updated: 2024/10/08 17:02:45 by lnicolof         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ typedef struct s_cub
 {
 	t_garbage_collector		*garbage_collector;
 	char					*file;
+	char					**maps;
 	int						count_NO;
 	int						count_SO;
 	int						count_EA;
@@ -54,13 +55,14 @@ typedef struct s_cub
 	int						F_R;
 	int						F_G;
 	int						F_B;
+	int						fd;
 
 }							t_cub;
 
 // gnl
 char						*ft_extract_line(char **stash, int *readed);
 char						*ft_strdup_gnl(char *str, int len);
-char						*get_next_line(int fd);
+char						*get_next_line(int fd, int flag);
 char						*ft_strjoin_gnl(char const *s1, char *s2);
 
 // garbage_collector
@@ -74,6 +76,15 @@ void						init_data(t_cub *cub, int ac, char **av);
 int							valid_file(char *str, t_cub *cub);
 void						gc_double_add(t_garbage_collector *gc, void **ptr);
 char						*truncate_space(char *src, t_cub *cub);
+int							valid_file(char *str, t_cub *cub);
+int							ft_is_empty(char *line);
+void						collect_data(t_cub *cub, char *str);
+char						**check_rgb(t_cub *cub, char *str);
+int							add_rgb(t_cub *cub, char *str);
+char						**realloc_tab(char **old, char *new);
+
+// parsing maps
+void						collect_maps(t_cub *cub, char *str);
 
 // str utils
 int							is_overflow(char *str);

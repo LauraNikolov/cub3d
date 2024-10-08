@@ -6,7 +6,7 @@
 /*   By: lnicolof <lnicolof@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/02 15:18:56 by lnicolof          #+#    #+#             */
-/*   Updated: 2024/10/02 16:08:53 by lnicolof         ###   ########.fr       */
+/*   Updated: 2024/10/08 15:24:47 by lnicolof         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,12 +40,15 @@ char	*ft_extract_line(char **stash, int *readed)
 	return (cpy);
 }
 
-char	*get_next_line(int fd)
+char	*get_next_line(int fd, int flag)
 {
 	static char	*stash;
 	char		*line;
 	int			readed;
 
+	
+	if(flag == 2)
+		return(free(stash), NULL);
 	readed = 1;
 	if (fd < 0 || read(fd, 0, 0) < 0 || BUFFER_SIZE <= 0)
 		return (NULL);

@@ -6,7 +6,7 @@
 /*   By: lnicolof <lnicolof@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/02 18:29:43 by lnicolof          #+#    #+#             */
-/*   Updated: 2024/10/08 14:15:33 by lnicolof         ###   ########.fr       */
+/*   Updated: 2024/10/08 15:12:25 by lnicolof         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ char	*truncate_space(char *src, t_cub *cub)
 		i++;
 	while (src && (src[i] == ' ' || src[i] == ' '))
 		i++;
-	dest = gc_alloc(cub->garbage_collector, ft_strlen(&src[i]) - 1);
+	dest = gc_alloc(cub->garbage_collector, ft_strlen(&src[i]));
 	ft_strlcpy(dest, &src[i], ft_strlen(&src[i]));
 	return (dest);
 }
