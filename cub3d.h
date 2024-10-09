@@ -6,7 +6,7 @@
 /*   By: lnicolof <lnicolof@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/02 15:20:33 by lnicolof          #+#    #+#             */
-/*   Updated: 2024/10/08 17:02:45 by lnicolof         ###   ########.fr       */
+/*   Updated: 2024/10/09 18:05:24 by lnicolof         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,9 +85,11 @@ char						**realloc_tab(char **old, char *new);
 
 // parsing maps
 void						collect_maps(t_cub *cub, char *str);
+int							map_is_valid(t_cub *cub);
 
 // str utils
 int							is_overflow(char *str);
 int							clean_exit(char *msg, t_garbage_collector *gc,
 								t_cub *cub);
+int							tab_len(char **tab);
 #endif

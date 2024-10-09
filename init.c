@@ -30,6 +30,7 @@ void	init_data(t_cub *cub, int ac, char **av)
 	cub->fd = valid_file(av[1], cub);
 	read_file(cub, cub->fd);
 	gc_double_add(cub->garbage_collector, (void **)cub->maps);
+	map_is_valid(cub);
 	// printf("NO = %s\n, SO = %s\n, EA = %s\n, WE = %s\n", cub->NO, cub->SO,
 	// 	cub->EA, cub->WE);
 	// printf("F = %d, %d, %d and C = %d, %d, %d\n", cub->F_R, cub->F_G, cub->F_B,

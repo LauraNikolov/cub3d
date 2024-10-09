@@ -6,7 +6,7 @@
 /*   By: lnicolof <lnicolof@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/08 16:33:23 by lnicolof          #+#    #+#             */
-/*   Updated: 2024/10/08 16:38:32 by lnicolof         ###   ########.fr       */
+/*   Updated: 2024/10/09 14:11:19 by lnicolof         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ char	**check_rgb(t_cub *cub, char *str)
 		y = 0;
 		while (strs[i] && strs[i][y])
 		{
-			if (ft_isdigit(strs[i][y]))
+			if (ft_isdigit(strs[i][y]) || strs[i][y] == ' ')
 				y++;
 			else
 				return (free(str), NULL);
