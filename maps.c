@@ -6,59 +6,87 @@
 /*   By: lnicolof <lnicolof@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/08 16:39:10 by lnicolof          #+#    #+#             */
-/*   Updated: 2024/10/09 18:35:22 by lnicolof         ###   ########.fr       */
+/*   Updated: 2024/10/10 11:54:29 by lnicolof         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
+void	remove_newline(char *str)
+{
+    if (!str)
+        return;
+    
+    size_t len = strlen(str);
+    
+    if (len > 0 && str[len - 1] == '\n')
+        str[len - 1] = '\0';
+}
+
+
+// int	check_position(char **maps, int i, int y, t_cub *cub)
+// {
+// 	int	y_bis;
+// 	int	max_tab;
+// 	int	max_len;
+
+// 	max_tab = tab_len(maps) - 1;
+// 	max_len = ft_strlen(maps[i]);
+// 	if (i == 0)
+// 		return (clean_exit("Maps error\n", cub->garbage_collector, cub));
+// 	if (i == max_tab)
+// 		return (clean_exit("Maps error\n", cub->garbage_collector, cub));
+// 	if (y - 1 < max_len && y - 1 >= 0)
+// 	{
+// 		if (maps[i][y - 1] == ' ')
+// 			return (clean_exit("Maps error\n", cub->garbage_collector, cub));
+// 	}
+// 	if (y + 1 < max_len && y + 1 >= 0)
+// 	{
+// 		if (maps[i][y + 1] == ' ')
+// 			return (clean_exit("Maps error\n", cub->garbage_collector, cub));
+// 	}
+// 	if (i + 1 < max_tab && i + 1 >= 0)
+// 	{
+// 		y_bis = ft_strlen(maps[i + 1]);
+// 		if (y > y_bis)
+// 			return (clean_exit("Maps error\n", cub->garbage_collector, cub));
+// 		else
+// 		{
+// 			if (maps[i + 1][y] == ' ')
+// 				return (clean_exit("Maps error\n", cub->garbage_collector,
+// 						cub));
+// 		}
+// 	}
+// 	if (i - 1 <= max_tab && i - 1 >= 0)
+// 	{
+// 		y_bis = ft_strlen(maps[i - 1]);
+// 		if (y > y_bis)
+// 			return (clean_exit("Maps error\n", cub->garbage_collector, cub));
+// 		else
+// 		{
+// 			if (maps[i - 1][y] == ' ')
+// 				return (clean_exit("Maps error\n", cub->garbage_collector,
+// 						cub));
+// 		}
+// 	}
+// 	return (0);
+// }
+
 int	check_position(char **maps, int i, int y, t_cub *cub)
 {
-	int	y_bis;
-	int	max_tab;
-	int	max_len;
+	int len_tab;
 
-	max_tab = tab_len(maps) - 1;
-	if (i == 0)
-		return (clean_exit("Maps error\n", cub->garbage_collector, cub));
-	if (i == max_tab)
-		return (clean_exit("Maps error\n", cub->garbage_collector, cub));
-	max_len = ft_strlen(maps[i]);
-	if (y - 1 < max_len && y - 1 >= 0)
-	{
-		if (maps[i][y - 1] == ' ')
-			return (clean_exit("Maps error\n", cub->garbage_collector, cub));
-	}
-	if (y + 1 < max_len && y + 1 >= 0)
-	{
-		if (maps[i][y + 1] == ' ')
-			return (clean_exit("Maps error\n", cub->garbage_collector, cub));
-	}
-	if (i + 1 < max_tab && i + 1 >= 0)
-	{
-		y_bis = ft_strlen(maps[i + 1]);
-		if (y > y_bis)
-			return (clean_exit("Maps error\n", cub->garbage_collector, cub));
-		else
-		{
-			if (maps[i + 1][y] == ' ')
-				return (clean_exit("Maps error\n", cub->garbage_collector,
-						cub));
-		}
-	}
-	if (i - 1 <= max_tab && i - 1 >= 0)
-	{
-		y_bis = ft_strlen(maps[i - 1]);
-		if (y > y_bis)
-			return (clean_exit("Maps error\n", cub->garbage_collector, cub));
-		else
-		{
-			if (maps[i - 1][y] == ' ')
-				return (clean_exit("Maps error\n", cub->garbage_collector,
-						cub));
-		}
-	}
-	return (0);
+	len_tab = tab_len(maps) - 1;
+	if(i - 1 < 0 || y > (int)ft_strlen(maps[i - 1]) - 1|| maps[i - 1][y] == ' ')
+		return(clean_exit("maps error 1\n", cub->garbage_collector, cub));
+	if(i + 1 > len_tab || y > (int)ft_strlen(maps[i + 1]) - 1|| maps[i + 1][y] == ' ')
+		return(clean_exit("maps error 2\n", cub->garbage_collector, cub));
+	if(y + 1 > (int)ft_strlen(maps[i]) - 1|| maps[i][y + 1] == ' ')
+		return(clean_exit("maps error 3\n", cub->garbage_collector, cub));
+	if(y - 1 < 0 || maps[i][y -1] == ' ')
+		return(clean_exit("maps error 4\n", cub->garbage_collector, cub));
+	return(0);
 }
 
 int	map_is_valid(t_cub *cub)
@@ -79,7 +107,9 @@ int	map_is_valid(t_cub *cub)
 		{
 			if (tmp[i][y] == '0' || tmp[i][y] == 'N' || tmp[i][y] == 'S'
 				|| tmp[i][y] == 'W' || tmp[i][y] == 'E')
+			{
 				check_position(tmp, i, y, cub);
+			}
 			y++;
 		}
 		i++;
@@ -108,6 +138,7 @@ int	map_is_valid(t_cub *cub)
 void	collect_maps(t_cub *cub, char *str)
 {
 	// reallouer la taille du tableau
+	remove_newline(str);
 	cub->maps = realloc_tab(cub->maps, str);
 	if (!cub->maps)
 	{
