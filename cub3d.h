@@ -6,7 +6,7 @@
 /*   By: lnicolof <lnicolof@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/02 15:20:33 by lnicolof          #+#    #+#             */
-/*   Updated: 2024/10/09 18:05:24 by lnicolof         ###   ########.fr       */
+/*   Updated: 2024/10/10 13:46:31 by lnicolof         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,9 @@ typedef struct s_cub
 	int						F_R;
 	int						F_G;
 	int						F_B;
+	int						player_x;
+	int						player_y;
+	char					player_cardinal;
 	int						fd;
 
 }							t_cub;
