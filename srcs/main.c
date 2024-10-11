@@ -6,7 +6,7 @@
 /*   By: lkhalifa <lkhalifa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/03 14:11:03 by lkhalifa          #+#    #+#             */
-/*   Updated: 2024/10/10 18:01:01 by lkhalifa         ###   ########.fr       */
+/*   Updated: 2024/10/11 18:30:36 by lkhalifa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,16 @@ static void test_init(t_cub *cub)
     cub->player_x = 16;
     cub->player_y = 3;
     cub->player_cardinal = 'N';
+    cub->NO = ft_strdup("./textures/1.xpm");
+    cub->SO = ft_strdup("./textures/2.xpm");
+    cub->WE = ft_strdup("./textures/3.xpm");
+    cub->EA = ft_strdup("./textures/4.xpm");
+    cub->C_R = 220;
+    cub->C_G = 220;
+    cub->C_B = 33;
+    cub->F_R = 60;
+    cub->F_G = 179;
+    cub->F_B = 110;
 }
 
 int	main(int ac, char **av)

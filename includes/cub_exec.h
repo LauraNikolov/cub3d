@@ -6,7 +6,7 @@
 /*   By: lkhalifa <lkhalifa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/01 15:22:45 by lkhalifa          #+#    #+#             */
-/*   Updated: 2024/10/10 17:45:48 by lkhalifa         ###   ########.fr       */
+/*   Updated: 2024/10/11 18:40:07 by lkhalifa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,23 +37,41 @@
 /* ------------  STRUCTS  -------------------------------------------------- */
 typedef struct s_cub	t_cub;
 
-typedef enum		e_texture
+typedef enum		e_textype
 {
 	T_NO,
 	T_SO,
 	T_WE,
 	T_EA,
-}					t_texture;
+}					t_textype;
+
+typedef struct s_img
+{
+	unsigned int		f_rgb;
+	unsigned int		c_rgb;
+	void				*img_p;
+	char				*addr;
+	int					bpp;
+    int					endian;
+    int					size_line;
+}						t_img;
+typedef struct s_textures
+{
+	void				*img_p;
+	char				*addr;
+	int					bpp;
+    int					endian;
+    int					size_line;
+	int					width;
+	int					height;
+}						t_texture;
 
 typedef struct s_player
 {
-	int x; // in px
-	int y; // in px
+	int					x;
+	int					y;
 	double				angle;
 	float				fov_rd;
-	// int         rot; // rotation flag
-	// int         l_r; // left right flag
-	// int         u_d; // up down flag
 }						t_player;
 
 typedef struct s_ray
@@ -67,10 +85,12 @@ typedef struct s_game
 {
 	int					p_x;
 	int					p_y;
-	int					w_map; //need this
-	int					h_map; //need this
+	int					w_map; //need this from parsing
+	int					h_map; //need this from parsing
 	void				*win;
 	void				*mlx;
+	t_texture			textures[4];
+	t_img				*img;
 	t_ray				*ray;
 	t_player			*player;
 	t_cub				*cub;
@@ -78,7 +98,6 @@ typedef struct s_game
 
 /* ------------  FUNCTIONS  ------------------------------------------------ */
 /* GAME */
-int						clear_game(t_game *game);
 void					start_game(t_cub *cub);
 
 /* RENDER */
@@ -89,5 +108,9 @@ double					norm_angle(double x);
 
 /* HANDLE MOVES */
 int						on_keypress(int keysym, t_game *game);
+
+/* UTILS */
+void					clear_images(t_game *game);
+int						clear_game(t_game *game);
 
 #endif //CUB_H

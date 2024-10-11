@@ -6,7 +6,7 @@
 /*   By: lkhalifa <lkhalifa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/08 16:14:30 by lnicolof          #+#    #+#             */
-/*   Updated: 2024/10/10 15:26:27 by lkhalifa         ###   ########.fr       */
+/*   Updated: 2024/10/11 14:56:03 by lkhalifa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 
 static void parse_f_c(t_cub *cub, char *str)
 {
-    if (!cub->C && !ft_strncmp("C", str, 1))
+    if (!cub->C && !strcmp("C", str))
 	{
 		cub->C = check_rgb(cub, ft_substr(truncate_space(str, cub), 0,
 					ft_strlen(str) - 1));
@@ -28,7 +28,7 @@ static void parse_f_c(t_cub *cub, char *str)
 				cub);
 		}
 	}
-	else if (!cub->F && !ft_strncmp("F", str, 1))
+	else if (!cub->F && !strcmp("F", str))
 	{
 		cub->F = check_rgb(cub, ft_substr(truncate_space(str, cub), 0,
 					ft_strlen(str) - 1));
