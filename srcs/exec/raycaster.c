@@ -6,12 +6,13 @@
 /*   By: lkhalifa <lkhalifa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/03 13:57:35 by lkhalifa          #+#    #+#             */
-/*   Updated: 2024/10/11 18:12:50 by lkhalifa         ###   ########.fr       */
+/*   Updated: 2024/10/12 19:50:18 by lkhalifa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
+// Adjust step according to angle
 static int	check_inter(float angle, float *inter, float *step, int h)
 {
 	if ((h && (angle > 0 && angle < M_PI))
@@ -24,6 +25,7 @@ static int	check_inter(float angle, float *inter, float *step, int h)
 	return (1);
 }
 
+// Check if ray hits wall
 static int	wall_hit(float x, float y, t_game *game)
 {
 	int	x_pos;
@@ -39,6 +41,7 @@ static int	wall_hit(float x, float y, t_game *game)
 	return (0);
 }
 
+// Get vertical intersection point
 static float	get_v_inter(t_game *game, float angle)
 {
 	float	x_inter;
@@ -60,10 +63,12 @@ static float	get_v_inter(t_game *game, float angle)
 		x_inter += x_step;
 		y_inter += y_step;
 	}
+	game->ray->x_inter = x_inter;
+	game->ray->y_inter = y_inter;
 	return (sqrt(pow(x_inter - game->p_x, 2) + pow(y_inter - game->p_y, 2)));
 }
 
-// Get horizontal intersection
+// Get horizontal intersection point
 static float	get_h_inter(t_game *game, float angle)
 {
 	float	x_inter;
@@ -88,6 +93,7 @@ static float	get_h_inter(t_game *game, float angle)
 	return (sqrt(pow(x_inter - game->p_x, 2) + pow(y_inter - game->p_y, 2)));
 }
 
+// Calculate distance from wall
 void	get_wall_distance(t_game **game)
 {
 	double	h_inter;

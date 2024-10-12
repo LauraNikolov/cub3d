@@ -6,7 +6,7 @@
 /*   By: lkhalifa <lkhalifa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/03 14:11:03 by lkhalifa          #+#    #+#             */
-/*   Updated: 2024/10/11 18:30:36 by lkhalifa         ###   ########.fr       */
+/*   Updated: 2024/10/12 19:30:18 by lkhalifa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ static void test_init(t_cub *cub)
     const char *map[] = {
         "111111111111111111111111111111",
         "1000000000110000000000000001",
-        "101100000111000N000000000001",
+        "101100000111000S000000000001",
         "1001000000000000000000000001",
         "1111111110110000011100000001",
         "1000000000110000011101111111",
@@ -50,12 +50,12 @@ static void test_init(t_cub *cub)
     cub->SO = ft_strdup("./textures/2.xpm");
     cub->WE = ft_strdup("./textures/3.xpm");
     cub->EA = ft_strdup("./textures/4.xpm");
-    cub->C_R = 220;
-    cub->C_G = 220;
-    cub->C_B = 33;
-    cub->F_R = 60;
-    cub->F_G = 179;
-    cub->F_B = 110;
+    cub->C_R = 173;
+    cub->C_G = 216;
+    cub->C_B = 230;
+    cub->F_R = 0;
+    cub->F_G = 100;
+    cub->F_B = 0;
 }
 
 int	main(int ac, char **av)

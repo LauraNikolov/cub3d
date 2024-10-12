@@ -6,7 +6,7 @@
 /*   By: lkhalifa <lkhalifa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/01 15:22:45 by lkhalifa          #+#    #+#             */
-/*   Updated: 2024/10/11 18:40:07 by lkhalifa         ###   ########.fr       */
+/*   Updated: 2024/10/12 19:50:44 by lkhalifa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,9 @@
 # define CUB_H
 
 /* ------------  MACROS  --------------------------------------------------- */
-# define S_W 1900
+# define S_W 1500
 # define S_H 1000
-# define T_SIZE 40 //tile size
+# define T_SIZE 32
 # define FOV 60
 # define ROTATION_SPEED 0.045
 # define PLAYER_SPEED 4
@@ -76,6 +76,8 @@ typedef struct s_player
 
 typedef struct s_ray
 {
+	float				x_inter;
+	float				y_inter;
 	double				angle;
 	double				dist;
 	int					h_flg;
@@ -100,6 +102,11 @@ typedef struct s_game
 /* GAME */
 void					start_game(t_cub *cub);
 
+/* TEXTURES */
+int						get_texture_color(t_texture texture, int x, int y);
+int						select_texture(t_game *game);
+void					init_textures(t_cub *cub, t_game *g);
+
 /* RENDER */
 void					render_map(t_game *game);
 void					get_wall_distance(t_game **game);
@@ -111,6 +118,7 @@ int						on_keypress(int keysym, t_game *game);
 
 /* UTILS */
 void					clear_images(t_game *game);
+void					clear_all(t_game *game);
 int						clear_game(t_game *game);
 
 #endif //CUB_H
