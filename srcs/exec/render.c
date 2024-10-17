@@ -6,7 +6,7 @@
 /*   By: lkhalifa <lkhalifa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/10 16:46:06 by lkhalifa          #+#    #+#             */
-/*   Updated: 2024/10/17 15:35:19 by lkhalifa         ###   ########.fr       */
+/*   Updated: 2024/10/17 18:56:34 by lkhalifa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ static void get_pos_y(int *pos_y, t_game *game, float draw_start, int y)
     pix_step = T_SIZE / (S_H / game->ray->dist);
     tex_pos = (y - draw_start) * pix_step;
     *pos_y = (int)tex_pos & (T_SIZE - 1);
+    // *pos_y %= T_SIZE;
     // *pos_y %= T_SIZE;
     // pos_y = (y * pix_step) * T_SIZE / (S_H / game->ray->dist);
 }
@@ -104,13 +105,12 @@ void	render_map(t_game *game)
     float   draw_end;
 
 	x = -1;
-	// game->ray->angle = norm_angle(game->player->angle - (game->player->fov_rd / 2));
-    game->ray->angle = game->player->angle - (game->player->fov_rd / 2) + (x / (float)S_W) * game->player->fov_rd;
-
+	game->ray->angle = norm_angle(game->player->angle - (game->player->fov_rd / 2));
+    // game->ray->angle = game->player->angle - (game->player->fov_rd / 2) + (x / (float)S_W) * game->player->fov_rd;
 	while (++x < S_W)
 	{
         get_wall_distance(&game);
-        adjust_distance(game);
+        game->ray->dist *= cos(norm_angle(game->ray->angle - game->player->angle)); //correct fisheye effect
         get_wall_height(game, &draw_start, &draw_end);
         texture = select_texture(game);
         draw_line(game, draw_start, draw_end, texture, x);

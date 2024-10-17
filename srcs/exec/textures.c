@@ -6,7 +6,7 @@
 /*   By: lkhalifa <lkhalifa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/12 19:02:30 by lkhalifa          #+#    #+#             */
-/*   Updated: 2024/10/17 15:29:13 by lkhalifa         ###   ########.fr       */
+/*   Updated: 2024/10/17 18:56:52 by lkhalifa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ static void get_tex_addr(t_game *g)
     
     i = -1;
 	while (++i < 4)
-	{	
+	{
 		if (!g->textures[i].img_p) //LEAKS
 		{	
 			ft_putstr_fd("Error : textures loading failed.\n", 2);
@@ -63,5 +63,5 @@ void init_textures(t_cub *cub, t_game *g)
 	g->textures[1].img_p = mlx_xpm_file_to_image(g->mlx, cub->SO, &g->textures[1].width, &g->textures[1].height);
 	g->textures[2].img_p = mlx_xpm_file_to_image(g->mlx, cub->WE, &g->textures[2].width, &g->textures[2].height);
 	g->textures[3].img_p = mlx_xpm_file_to_image(g->mlx, cub->EA, &g->textures[3].width, &g->textures[3].height);
-    get_tex_addr(g);
+	get_tex_addr(g);
 }

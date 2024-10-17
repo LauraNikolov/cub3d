@@ -6,7 +6,7 @@
 /*   By: lkhalifa <lkhalifa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/01 15:22:45 by lkhalifa          #+#    #+#             */
-/*   Updated: 2024/10/17 16:00:34 by lkhalifa         ###   ########.fr       */
+/*   Updated: 2024/10/17 18:54:59 by lkhalifa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
 # define T_SIZE 32
 # define FOV 60
 # define ROTATION_SPEED 0.045
-# define MOVE_SPEED 4
+# define MOVE_SPEED 10
 
 /* ------------  LIBRARIES  ------------------------------------------------ */
 # include "../libft/ft_printf/ft_printf.h"
@@ -44,6 +44,12 @@ typedef enum		e_textype
 	T_WE,
 	T_EA,
 }					t_textype;
+
+typedef struct s_point
+{
+	float					x;
+	float					y;
+}						t_point;
 
 typedef struct s_point
 {
@@ -91,8 +97,6 @@ typedef struct s_ray
 
 typedef struct s_game
 {
-	int					p_x;
-	int					p_y;
 	int					w_map; //need this from parsing
 	int					h_map; //need this from parsing
 	void				*win;
@@ -115,6 +119,7 @@ void					init_textures(t_cub *cub, t_game *g);
 
 /* RENDER */
 void					render_map(t_game *game);
+int						wall_hit(float x, float y, t_game *game);
 void					get_wall_distance(t_game **game);
 int						unit_circle(float angle, char c);
 double					norm_angle(double x);

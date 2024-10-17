@@ -6,7 +6,7 @@
 /*   By: lkhalifa <lkhalifa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/10 12:07:56 by lkhalifa          #+#    #+#             */
-/*   Updated: 2024/10/12 19:13:48 by lkhalifa         ###   ########.fr       */
+/*   Updated: 2024/10/17 18:35:49 by lkhalifa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,15 +53,13 @@ static void	init_game(t_cub *cub, t_game *game) //use gc & protect memory
 {
 	game->w_map = 30; //TEST
 	game->h_map = 14; //TEST -> retrieve from parsing
-	game->p_x = cub->player_x;
-	game->p_y = cub->player_y;
 	game->player = malloc(sizeof(t_player)); //PROTECT
 	game->ray = malloc(sizeof(t_ray));       //PROTECT
 	game->cub = cub;
 	game->player->fov_rd = FOV * (M_PI / 180.0);
 	game->player->angle = get_player_angle(cub);
-	game->player->x = (game->p_x * T_SIZE) + (T_SIZE / 2);
-	game->player->y = (game->p_y * T_SIZE) + (T_SIZE / 2);
+	game->player->x = (cub->player_x * T_SIZE) + (T_SIZE / 2);
+	game->player->y = (cub->player_y * T_SIZE) + (T_SIZE / 2);
 }
 
 void	start_game(t_cub *cub)
