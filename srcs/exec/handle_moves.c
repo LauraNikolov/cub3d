@@ -3,12 +3,19 @@
 /*                                                        :::      ::::::::   */
 /*   handle_moves.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lkhalifa <lkhalifa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lnicolof <lnicolof@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/10 16:41:47 by lkhalifa          #+#    #+#             */
-/*   Updated: 2024/10/11 18:43:48 by lkhalifa         ###   ########.fr       */
+/*   Updated: 2024/10/17 13:15:04 by lnicolof         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+#include "cub3d.h"
+#define ROT_SPEED 0.6 // Définir la vitesse de rotation
+
+/********************************* */ // FOR TESTS
+#define MOVE_SPEED 2.0                // Vitesse de déplacement
+
 
 #include "cub3d.h"
 

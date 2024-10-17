@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   render.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lkhalifa <lkhalifa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lnicolof <lnicolof@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/10 16:46:06 by lkhalifa          #+#    #+#             */
-/*   Updated: 2024/10/12 20:08:26 by lkhalifa         ###   ########.fr       */
+/*   Updated: 2024/10/14 15:22:09 by lnicolof         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,9 +51,10 @@ static void set_texture(int tex_id, t_game *game, int x, int y, float draw_start
     int     pos_y;
     int     color;
     
+    (void)tex_id;
     get_pos_x(&pos_x, game);
     get_pos_y(&pos_y, game, draw_start, y);
-    color = get_texture_color(game->textures[tex_id], pos_x, pos_y);
+    color =  0xFF0000; //get_texture_color(game->textures[tex_id], pos_x, pos_y);
     set_pixel(color, game, x, y);
 }
 

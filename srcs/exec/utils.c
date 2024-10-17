@@ -3,14 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lkhalifa <lkhalifa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lnicolof <lnicolof@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/04 14:44:09 by lkhalifa          #+#    #+#             */
-/*   Updated: 2024/10/12 19:14:49 by lkhalifa         ###   ########.fr       */
+/*   Updated: 2024/10/14 15:10:43 by lnicolof         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
+#define ROT_SPEED 0.1 
 
 void	clear_images(t_game *game)
 {
@@ -27,7 +28,7 @@ void	clear_all(t_game *game)
 	clear_images(game);
 	mlx_destroy_display(game->mlx);
 	free(game->mlx);
-	clear_tab(game->cub->maps); //TEST (valgrind error)
+	//clear_tab(game->cub->maps); //TEST (valgrind error)
 	free(game->cub);
 	free(game->player);
 	free(game->img);

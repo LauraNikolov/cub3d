@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   raycaster.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lkhalifa <lkhalifa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lnicolof <lnicolof@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/03 13:57:35 by lkhalifa          #+#    #+#             */
-/*   Updated: 2024/10/12 19:50:18 by lkhalifa         ###   ########.fr       */
+/*   Updated: 2024/10/14 17:06:03 by lnicolof         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ static int	check_inter(float angle, float *inter, float *step, int h)
 }
 
 // Check if ray hits wall
-static int	wall_hit(float x, float y, t_game *game)
+int	wall_hit(float x, float y, t_game *game)
 {
 	int	x_pos;
 	int	y_pos;

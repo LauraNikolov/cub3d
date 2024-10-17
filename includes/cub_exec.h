@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub_exec.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lkhalifa <lkhalifa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lnicolof <lnicolof@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/01 15:22:45 by lkhalifa          #+#    #+#             */
-/*   Updated: 2024/10/12 19:50:44 by lkhalifa         ###   ########.fr       */
+/*   Updated: 2024/10/14 17:06:21 by lnicolof         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,8 @@
 # define PLAYER_SPEED 4
 
 /* ------------  LIBRARIES  ------------------------------------------------ */
-# include "../libft/ft_printf/ft_printf.h"
-# include "../libft/libft_src/libft.h"
+//# include "../libft/ft_printf/ft_printf.h"
+# include "../libft/libft.h"
 # include "../mlx_linux/mlx.h"
 # include <X11/X.h>
 # include <X11/keysym.h>
@@ -37,13 +37,13 @@
 /* ------------  STRUCTS  -------------------------------------------------- */
 typedef struct s_cub	t_cub;
 
-typedef enum		e_textype
+typedef enum e_textype
 {
 	T_NO,
 	T_SO,
 	T_WE,
 	T_EA,
-}					t_textype;
+}						t_textype;
 
 typedef struct s_img
 {
@@ -52,16 +52,16 @@ typedef struct s_img
 	void				*img_p;
 	char				*addr;
 	int					bpp;
-    int					endian;
-    int					size_line;
+	int					endian;
+	int					size_line;
 }						t_img;
 typedef struct s_textures
 {
 	void				*img_p;
 	char				*addr;
 	int					bpp;
-    int					endian;
-    int					size_line;
+	int					endian;
+	int					size_line;
 	int					width;
 	int					height;
 }						t_texture;
@@ -87,8 +87,8 @@ typedef struct s_game
 {
 	int					p_x;
 	int					p_y;
-	int					w_map; //need this from parsing
-	int					h_map; //need this from parsing
+	int w_map; // need this from parsing
+	int h_map; // need this from parsing
 	void				*win;
 	void				*mlx;
 	t_texture			textures[4];
@@ -112,6 +112,7 @@ void					render_map(t_game *game);
 void					get_wall_distance(t_game **game);
 int						unit_circle(float angle, char c);
 double					norm_angle(double x);
+int						wall_hit(float x, float y, t_game *game);
 
 /* HANDLE MOVES */
 int						on_keypress(int keysym, t_game *game);
@@ -121,4 +122,4 @@ void					clear_images(t_game *game);
 void					clear_all(t_game *game);
 int						clear_game(t_game *game);
 
-#endif //CUB_H
+#endif // CUB_H

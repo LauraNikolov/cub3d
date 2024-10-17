@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_game.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lkhalifa <lkhalifa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lnicolof <lnicolof@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/10 12:07:56 by lkhalifa          #+#    #+#             */
-/*   Updated: 2024/10/12 19:13:48 by lkhalifa         ###   ########.fr       */
+/*   Updated: 2024/10/14 15:15:25 by lnicolof         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,6 @@ void	start_game(t_cub *cub)
 	}
 	init_game(cub, &game);
 	init_img(cub, &game);
-	init_textures(cub, &game);
+	//init_textures(cub, &game);
 	display_all(game);
 }
