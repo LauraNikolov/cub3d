@@ -6,7 +6,7 @@
 /*   By: lkhalifa <lkhalifa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/17 16:31:51 by lkhalifa          #+#    #+#             */
-/*   Updated: 2024/10/17 18:55:46 by lkhalifa         ###   ########.fr       */
+/*   Updated: 2024/10/17 18:58:20 by lkhalifa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,8 +60,6 @@ static void update_game(t_game *game, t_point *target_pos)
 
 int	on_keypress(int keysym, t_game *game)
 {
-    t_point target_pos;
-    
     t_point target_pos;
     
 	if (keysym == XK_Escape)

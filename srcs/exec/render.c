@@ -6,7 +6,7 @@
 /*   By: lkhalifa <lkhalifa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/10 16:46:06 by lkhalifa          #+#    #+#             */
-/*   Updated: 2024/10/17 18:56:34 by lkhalifa         ###   ########.fr       */
+/*   Updated: 2024/10/17 19:46:29 by lkhalifa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,9 +28,7 @@ static void get_pos_y(int *pos_y, t_game *game, float draw_start, int y)
     pix_step = T_SIZE / (S_H / game->ray->dist);
     tex_pos = (y - draw_start) * pix_step;
     *pos_y = (int)tex_pos & (T_SIZE - 1);
-    // *pos_y %= T_SIZE;
-    // *pos_y %= T_SIZE;
-    // pos_y = (y * pix_step) * T_SIZE / (S_H / game->ray->dist);
+    *pos_y %= T_SIZE;
 }
 
 static void get_pos_x(int *pos_x, t_game *game)
@@ -38,11 +36,12 @@ static void get_pos_x(int *pos_x, t_game *game)
     float   hit_pos;
     
     if (game->ray->h_flg)
-        hit_pos = game->ray->x_inter - floor(game->ray->x_inter);
+        hit_pos = game->ray->x_h_inter - floor(game->ray->x_h_inter);
     else
-        hit_pos = game->ray->y_inter - floor(game->ray->y_inter);
+        hit_pos = game->ray->y_v_inter - floor(game->ray->y_v_inter);
     *pos_x = hit_pos * T_SIZE;
-    if (!game->ray->h_flg && game->ray->angle > M_PI) //check this & adjust
+    if ((!game->ray->h_flg && game->ray->angle > M_PI)
+        || (game->ray->h_flg && game->ray->angle < M_PI)) //check this & adjust
         *pos_x = T_SIZE - *pos_x - 1;
     *pos_x %= T_SIZE;
 }
@@ -88,15 +87,6 @@ static void get_wall_height(t_game *game, float *draw_start, float *draw_end)
         *draw_end = S_H - 1;
 }
 
-//correct fisheye effect
-static void adjust_distance(t_game *game)
-{
-    float   angle_diff;
-
-    angle_diff = game->player->angle - game->ray->angle;
-    game->ray->dist *= cos(angle_diff);
-}
-
 void	render_map(t_game *game)
 {
     int		x;
@@ -106,7 +96,7 @@ void	render_map(t_game *game)
 
 	x = -1;
 	game->ray->angle = norm_angle(game->player->angle - (game->player->fov_rd / 2));
-    // game->ray->angle = game->player->angle - (game->player->fov_rd / 2) + (x / (float)S_W) * game->player->fov_rd;
+    // game->ray->angle = norm_angle(game->player->angle - (game->player->fov_rd / 2) + (x / S_W) * game->player->fov_rd);
 	while (++x < S_W)
 	{
         get_wall_distance(&game);

@@ -6,24 +6,11 @@
 /*   By: lkhalifa <lkhalifa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/03 13:57:35 by lkhalifa          #+#    #+#             */
-/*   Updated: 2024/10/17 18:44:03 by lkhalifa         ###   ########.fr       */
+/*   Updated: 2024/10/17 19:39:22 by lkhalifa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
-
-// Adjust step according to angle
-static int	adjust_step(float angle, float *inter, float *step, int h)
-{
-	if ((h && (angle > 0 && angle < M_PI))
-		|| (!h && (!(angle > (M_PI / 2) && angle < (3 * M_PI / 2)))))
-	{
-			*inter += T_SIZE;
-			return (-1);
-	}
-	*step *= -1;
-	return (1);
-}
 
 // Check if ray hits wall
 int	wall_hit(float x, float y, t_game *game)
@@ -41,6 +28,19 @@ int	wall_hit(float x, float y, t_game *game)
 	return (0);
 }
 
+// Adjust step according to angle
+static int	adjust_step(float angle, float *inter, float *step, int h)
+{
+	if ((h && (angle > 0 && angle < M_PI))
+		|| (!h && (!(angle > (M_PI / 2) && angle < (3 * M_PI / 2)))))
+	{
+			*inter += T_SIZE;
+			return (-1);
+	}
+	*step *= -1;
+	return (1);
+}
+
 // Get vertical intersection point
 static float	get_v_inter(t_game *game, float angle)
 {
@@ -51,20 +51,22 @@ static float	get_v_inter(t_game *game, float angle)
 	int		pix;
 
 	x_inter = floor(game->player->x / T_SIZE) * T_SIZE;
-	y_inter = game->player->y + (x_inter - game->player->x) / tan(angle);
+	y_inter = game->player->y + (x_inter - game->player->x) * tan(angle);
 	x_step = T_SIZE;
-	y_step = T_SIZE / tan(angle); //CHECK if tan(angle) = 0?
+    y_step = T_SIZE * tan(angle);
+    if (angle == M_PI / 2 || angle == 3 * M_PI / 2) //check adjustment
+    {    y_inter = game->player->y;}
 	pix = adjust_step(angle, &x_inter, &x_step, 0);
-	if ((y_step > 0 && unit_circle(angle, 'h')) || (y_step < 0
-			&& !unit_circle(angle, 'h')))
+	if ((y_step > 0 && unit_circle(angle, 'h'))
+		|| (y_step < 0 && !unit_circle(angle, 'h')))
 		y_step *= -1;
 	while (!wall_hit(x_inter - pix, y_inter, game))
 	{
 		x_inter += x_step;
 		y_inter += y_step;
 	}
-	game->ray->x_inter = x_inter;
-	game->ray->y_inter = y_inter;
+	game->ray->x_v_inter = x_inter;
+	game->ray->y_v_inter = y_inter;
 	return (sqrt(pow(x_inter - game->player->x, 2) + pow(y_inter - game->player->y, 2)));
 }
 
@@ -80,16 +82,22 @@ static float	get_h_inter(t_game *game, float angle)
 	y_inter = floor(game->player->y / T_SIZE) * T_SIZE;
 	x_inter = game->player->x + (y_inter - game->player->y) / tan(angle);
 	y_step = T_SIZE;
-	x_step = T_SIZE / tan(angle);
+	x_step = T_SIZE * tan(angle);
+	if (angle == 0 || angle == M_PI)
+        x_inter = game->player->x;
+    else
+    {    x_step = T_SIZE / tan(angle);}
 	pix = adjust_step(angle, &y_inter, &y_step, 1);
 	if ((x_step > 0 && unit_circle(angle, 'y'))
-		|| (x_step < 0 && unit_circle(angle, 'y')))
+		|| (x_step < 0 && !unit_circle(angle, 'y')))
 		x_step *= -1;
 	while (!wall_hit(x_inter, y_inter - pix, game))
 	{
 		x_inter += x_step;
 		y_inter += y_step;
 	}
+	game->ray->x_h_inter = x_inter;
+	game->ray->y_h_inter = y_inter;
 	return (sqrt(pow(x_inter - game->player->x, 2) + pow(y_inter - game->player->y, 2)));
 }
 
