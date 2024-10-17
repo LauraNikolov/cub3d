@@ -6,7 +6,7 @@
 /*   By: lkhalifa <lkhalifa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/01 15:22:45 by lkhalifa          #+#    #+#             */
-/*   Updated: 2024/10/12 19:50:44 by lkhalifa         ###   ########.fr       */
+/*   Updated: 2024/10/17 16:00:34 by lkhalifa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
 # define T_SIZE 32
 # define FOV 60
 # define ROTATION_SPEED 0.045
-# define PLAYER_SPEED 4
+# define MOVE_SPEED 4
 
 /* ------------  LIBRARIES  ------------------------------------------------ */
 # include "../libft/ft_printf/ft_printf.h"
@@ -44,6 +44,12 @@ typedef enum		e_textype
 	T_WE,
 	T_EA,
 }					t_textype;
+
+typedef struct s_point
+{
+	float					x;
+	float					y;
+}						t_point;
 
 typedef struct s_img
 {

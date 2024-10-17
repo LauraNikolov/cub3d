@@ -6,7 +6,7 @@
 /*   By: lkhalifa <lkhalifa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/08 16:14:30 by lnicolof          #+#    #+#             */
-/*   Updated: 2024/10/11 14:56:03 by lkhalifa         ###   ########.fr       */
+/*   Updated: 2024/10/17 15:52:15 by lkhalifa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,6 @@ static void parse_f_c(t_cub *cub, char *str)
 		}
 	}
 }
-
 
 static void parse_cardinal(t_cub *cub, char *str)
 {
