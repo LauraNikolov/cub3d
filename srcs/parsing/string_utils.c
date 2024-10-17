@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   string_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lkhalifa <lkhalifa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lnicolof <lnicolof@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/02 18:29:43 by lnicolof          #+#    #+#             */
-/*   Updated: 2024/10/11 15:04:15 by lkhalifa         ###   ########.fr       */
+/*   Updated: 2024/10/17 15:16:30 by lnicolof         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,8 @@ int clean_exit(char *msg, t_garbage_collector *gc, t_cub *cub)
 
     i = ft_strlen(msg);
     write(1, msg, i);
-    gc_free(gc);
+	if(gc)
+    	gc_free(gc);
     free(cub);
     exit(1);
 }
@@ -56,7 +57,9 @@ long	ft_atol(char *nptr)
 int	is_overflow(char *str)
 {
 	char	*cmp;
-
+	
+	if(!str)
+		return(1);
 	cmp = ft_itoa(ft_atol(str));
 	if (ft_strlen(cmp) == ft_strlen(str) && !ft_strncmp(str, cmp,
 			ft_strlen(cmp)))

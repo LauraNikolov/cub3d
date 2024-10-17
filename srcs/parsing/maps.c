@@ -6,7 +6,7 @@
 /*   By: lnicolof <lnicolof@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/08 16:39:10 by lnicolof          #+#    #+#             */
-/*   Updated: 2024/10/10 13:56:02 by lnicolof         ###   ########.fr       */
+/*   Updated: 2024/10/17 16:10:35 by lnicolof         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,8 +47,8 @@ void check_maps_char(char *str, t_cub *cub)
 	i = 0;
 	while(str[i])
 	{
-		if(str[i] != '0' && str[i] != '1' && str[i] != 'N' && str[i] != 'S' && str[i] != 'E' && str[i] != 'W')
-			clean_exit("error\n", cub->garbage_collector, cub);
+		if(str[i] != '0' && str[i] != '1' && str[i] != 'N' && str[i] != 'S' && str[i] != 'E' && str[i] != 'W' && str[i] != ' ')
+			clean_exit("maps invalid\n", cub->garbage_collector, cub);
 		i++;
 	}
 }
@@ -89,7 +89,7 @@ int	map_is_valid(t_cub *cub)
 		i++;
 	}
 	if(player != 1)
-		return(clean_exit("error\n", cub->garbage_collector, cub));
+		return(clean_exit("error player\n", cub->garbage_collector, cub));
 	return (0);
 }
 
