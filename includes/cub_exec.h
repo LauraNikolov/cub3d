@@ -6,7 +6,7 @@
 /*   By: lkhalifa <lkhalifa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/01 15:22:45 by lkhalifa          #+#    #+#             */
-/*   Updated: 2024/10/18 16:52:41 by lkhalifa         ###   ########.fr       */
+/*   Updated: 2024/10/18 19:46:35 by lkhalifa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,8 @@
 # define S_H 1000
 # define T_SIZE 32
 # define FOV 66
-# define ROTATION_SPEED 0.045
-# define MOVE_SPEED 5
+# define ROTATION_SPEED 0.08
+# define MOVE_SPEED 0.5
 
 /* ------------  LIBRARIES  ------------------------------------------------ */
 # include "../libft/ft_printf/ft_printf.h"
@@ -45,11 +45,22 @@ typedef enum		e_textype
 	T_EA,
 }					t_textype;
 
+
 typedef struct s_point
 {
-	float					x;
-	float					y;
+	double					x;
+	double					y;
 }						t_point;
+
+typedef struct s_dda
+{
+	t_point			ray_dir;
+	t_point			map;
+	t_point			side_dist;
+	t_point			delta_dist;
+	t_point			step;
+	double			camera_x;
+}						t_dda;
 
 typedef struct s_img
 {
@@ -97,6 +108,10 @@ typedef struct s_game
 	int					h_map; //need this from parsing
 	void				*win;
 	void				*mlx;
+	t_point			pos;
+	t_point			dir;
+	t_point			plane;
+	t_dda				*dda;
 	t_texture			textures[4];
 	t_img				*img;
 	t_ray				*ray;
@@ -116,8 +131,8 @@ void					init_textures(t_cub *cub, t_game *g);
 /* RENDER */
 void					render_map(t_game *game);
 int						wall_hit(float x, float y, t_game *game);
-// void					get_wall_distance(t_game **game, int x);
-void					get_wall_distance(t_game **game);
+void					get_wall_distance(t_game **game, int x);
+// void					get_wall_distance(t_game **game);
 int						unit_circle(float angle, char c);
 double					norm_angle(double x);
 

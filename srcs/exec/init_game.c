@@ -6,7 +6,7 @@
 /*   By: lkhalifa <lkhalifa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/10 12:07:56 by lkhalifa          #+#    #+#             */
-/*   Updated: 2024/10/18 13:55:25 by lkhalifa         ###   ########.fr       */
+/*   Updated: 2024/10/18 19:49:54 by lkhalifa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,12 @@ static void	init_game(t_cub *cub, t_game *game) //use gc & protect memory
 	game->player->angle = get_player_angle(cub);
 	game->player->x = (cub->player_x * T_SIZE) + (T_SIZE / 2);
 	game->player->y = (cub->player_y * T_SIZE) + (T_SIZE / 2);
+	game->pos.x = game->cub->player_x;
+	game->pos.y = game->cub->player_y;
+	game->dir.x = -1;
+	game->dir.y = 0;
+	game->plane.x = 0;
+	game->plane.y = 0.66;
 }
 
 void	start_game(t_cub *cub)

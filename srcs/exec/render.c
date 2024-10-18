@@ -6,7 +6,7 @@
 /*   By: lkhalifa <lkhalifa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/10 16:46:06 by lkhalifa          #+#    #+#             */
-/*   Updated: 2024/10/18 16:52:36 by lkhalifa         ###   ########.fr       */
+/*   Updated: 2024/10/18 19:04:44 by lkhalifa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,8 +82,8 @@ static void get_wall_height(t_game *game, float *draw_start, float *draw_end)
 {
     float   wall_height;
 
-    wall_height = (T_SIZE / game->ray->dist) * ((S_W / 2) / tan(game->player->fov_rd / 2));
-    // wall_height = S_H / game->ray->angle;
+    // wall_height = (T_SIZE / game->ray->dist) * ((S_W / 2) / tan(game->player->fov_rd / 2));
+    wall_height = S_H / game->ray->dist;
     *draw_start = -(wall_height / 2) + (S_H / 2);
     *draw_end = (wall_height / 2) + (S_H / 2);
     if (*draw_start < 0)
@@ -100,16 +100,15 @@ void	render_map(t_game *game)
     float   draw_end;
 
 	x = -1;
-	game->ray->angle = norm_angle(game->player->angle - (game->player->fov_rd / 2));
+	// game->ray->angle = norm_angle(game->player->angle - (game->player->fov_rd / 2));
 	while (++x < S_W)
 	{
-        get_wall_distance(&game);
-        game->ray->dist *= cos(norm_angle(game->ray->angle - game->player->angle)); //correct fisheye effect
+        get_wall_distance(&game, x);
+        // game->ray->dist *= cos(norm_angle(game->ray->angle - game->player->angle)); //correct fisheye effect
         get_wall_height(game, &draw_start, &draw_end);
         texture = select_texture(game);
         draw_line(game, draw_start, draw_end, texture, x);
-        game->ray->angle += game->player->fov_rd / S_W;
-        game->ray->angle = norm_angle(game->ray->angle);
+        // game->ray->angle += game->player->fov_rd / S_W;
 	}
     mlx_put_image_to_window(game->mlx, game->win, game->img->img_p, 0, 0);
 }
