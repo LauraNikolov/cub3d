@@ -6,7 +6,7 @@
 /*   By: lkhalifa <lkhalifa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/01 15:22:45 by lkhalifa          #+#    #+#             */
-/*   Updated: 2024/10/17 19:39:44 by lkhalifa         ###   ########.fr       */
+/*   Updated: 2024/10/18 16:52:41 by lkhalifa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 # define S_W 1500
 # define S_H 1000
 # define T_SIZE 32
-# define FOV 60
+# define FOV 66
 # define ROTATION_SPEED 0.045
 # define MOVE_SPEED 5
 
@@ -116,6 +116,7 @@ void					init_textures(t_cub *cub, t_game *g);
 /* RENDER */
 void					render_map(t_game *game);
 int						wall_hit(float x, float y, t_game *game);
+// void					get_wall_distance(t_game **game, int x);
 void					get_wall_distance(t_game **game);
 int						unit_circle(float angle, char c);
 double					norm_angle(double x);

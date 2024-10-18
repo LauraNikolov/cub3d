@@ -6,7 +6,7 @@
 /*   By: lkhalifa <lkhalifa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/03 13:57:35 by lkhalifa          #+#    #+#             */
-/*   Updated: 2024/10/17 19:39:22 by lkhalifa         ###   ########.fr       */
+/*   Updated: 2024/10/18 17:23:34 by lkhalifa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,24 +15,23 @@
 // Check if ray hits wall
 int	wall_hit(float x, float y, t_game *game)
 {
-	int	x_pos;
-	int	y_pos;
+	t_point pos;
 
-	x_pos = floor(x / T_SIZE);
-	y_pos = floor(y / T_SIZE);
-	if (x < 0 || y < 0 || x_pos >= game->w_map || y_pos >= game->h_map)
+	pos.x = floor(x / T_SIZE);
+	pos.y = floor(y / T_SIZE);
+	if (x <= 0 || y <= 0 || pos.x < 0 || pos.y < 0 || pos.y >= game->h_map)
 		return (1);
-	if (game->cub->maps[y_pos] && x_pos < (int)ft_strlen(game->cub->maps[y_pos])
-		&& game->cub->maps[y_pos][x_pos] == '1')
+	if (game->cub->maps[(int)pos.y] && pos.x < (int)ft_strlen(game->cub->maps[(int)pos.y])
+		&& game->cub->maps[(int)pos.y][(int)pos.x] == '1')
 		return (1);
 	return (0);
 }
 
 // Adjust step according to angle
-static int	adjust_step(float angle, float *inter, float *step, int h)
+static int	adjust_step(float angle, float *inter, float *step, char c) //check this 
 {
-	if ((h && (angle > 0 && angle < M_PI))
-		|| (!h && (!(angle > (M_PI / 2) && angle < (3 * M_PI / 2)))))
+	if ((c == 'h' && (angle > 0 && angle < M_PI))
+		|| (c == 'v' && (!(angle > (M_PI / 2) && angle < (3 * M_PI / 2)))))
 	{
 			*inter += T_SIZE;
 			return (-1);
@@ -44,64 +43,58 @@ static int	adjust_step(float angle, float *inter, float *step, int h)
 // Get vertical intersection point
 static float	get_v_inter(t_game *game, float angle)
 {
-	float	x_inter;
-	float	y_inter;
-	float	x_step;
-	float	y_step;
+	t_point inter;
+	t_point step;
 	int		pix;
 
-	x_inter = floor(game->player->x / T_SIZE) * T_SIZE;
-	y_inter = game->player->y + (x_inter - game->player->x) * tan(angle);
-	x_step = T_SIZE;
-    y_step = T_SIZE * tan(angle);
-    if (angle == M_PI / 2 || angle == 3 * M_PI / 2) //check adjustment
-    {    y_inter = game->player->y;}
-	pix = adjust_step(angle, &x_inter, &x_step, 0);
-	if ((y_step > 0 && unit_circle(angle, 'h'))
-		|| (y_step < 0 && !unit_circle(angle, 'h')))
-		y_step *= -1;
-	while (!wall_hit(x_inter - pix, y_inter, game))
+	inter.x = floor(game->player->x / T_SIZE) * T_SIZE;
+	inter.y = game->player->y + (inter.x - game->player->x) * tan(angle);
+	step.x = T_SIZE;
+    step.y = T_SIZE * tan(angle);
+    // if (angle == M_PI / 2 || angle == 3 * M_PI / 2)
+    //     	inter.y = game->player->y;
+	pix = adjust_step(angle, &inter.x, &step.x, 'v');
+	if ((step.y > 0 && unit_circle(angle, 'x'))
+		|| (step.y < 0 && !unit_circle(angle, 'x')))
+		step.y *= -1;
+	while (!wall_hit(inter.x - pix, inter.y, game))
 	{
-		x_inter += x_step;
-		y_inter += y_step;
+		inter.x += step.x;
+		inter.y += step.y;
 	}
-	game->ray->x_v_inter = x_inter;
-	game->ray->y_v_inter = y_inter;
-	return (sqrt(pow(x_inter - game->player->x, 2) + pow(y_inter - game->player->y, 2)));
+	game->ray->x_v_inter = inter.x;
+	game->ray->y_v_inter = inter.y;
+	return (sqrt(pow(inter.x - game->player->x, 2) + pow(inter.y - game->player->y, 2)));
 }
 
 // Get horizontal intersection point
 static float	get_h_inter(t_game *game, float angle)
 {
-	float	x_inter;
-	float	y_inter;
-	float	x_step;
-	float	y_step;
+	t_point inter;
+	t_point step;
 	int		pix;
 
-	y_inter = floor(game->player->y / T_SIZE) * T_SIZE;
-	x_inter = game->player->x + (y_inter - game->player->y) / tan(angle);
-	y_step = T_SIZE;
-	x_step = T_SIZE * tan(angle);
-	if (angle == 0 || angle == M_PI)
-        x_inter = game->player->x;
-    else
-    {    x_step = T_SIZE / tan(angle);}
-	pix = adjust_step(angle, &y_inter, &y_step, 1);
-	if ((x_step > 0 && unit_circle(angle, 'y'))
-		|| (x_step < 0 && !unit_circle(angle, 'y')))
-		x_step *= -1;
-	while (!wall_hit(x_inter, y_inter - pix, game))
+	inter.y = floor(game->player->y / T_SIZE) * T_SIZE;
+	inter.x = game->player->x + (inter.y - game->player->y) / tan(angle);
+	step.y = T_SIZE;
+	step.x = T_SIZE / tan(angle);
+	// if (angle == 0 || angle == M_PI)
+    // 	inter.x = game->player->x;
+	pix = adjust_step(angle, &inter.y, &step.y, 'h');
+	if ((step.x > 0 && unit_circle(angle, 'y'))
+		|| (step.x < 0 && !unit_circle(angle, 'y')))
+		step.x *= -1;
+	while (!wall_hit(inter.x, inter.y - pix, game))
 	{
-		x_inter += x_step;
-		y_inter += y_step;
+		inter.x += step.x;
+		inter.y += step.y;
 	}
-	game->ray->x_h_inter = x_inter;
-	game->ray->y_h_inter = y_inter;
-	return (sqrt(pow(x_inter - game->player->x, 2) + pow(y_inter - game->player->y, 2)));
+	game->ray->x_h_inter = inter.x;
+	game->ray->y_h_inter = inter.y;
+	return (sqrt(pow(inter.x - game->player->x, 2) + pow(inter.y - game->player->y, 2)));
 }
 
-// Calculate distance from wall
+//Calculate distance from wall
 void	get_wall_distance(t_game **game)
 {
 	double	h_inter;
@@ -111,11 +104,104 @@ void	get_wall_distance(t_game **game)
 	h_inter = get_h_inter((*game), (*game)->ray->angle);
 	v_inter = get_v_inter((*game), (*game)->ray->angle);
 	if (v_inter <= h_inter)
+	{	
 		(*game)->ray->dist = v_inter;
+		(*game)->ray->h_flg = 0;
+	}
 	else
 	{
 		(*game)->ray->dist = h_inter;
 		(*game)->ray->h_flg = 1;
 	}
-	(*game)->ray->angle += (*game)->player->fov_rd / S_W;
 }
+
+// void	get_wall_distance(t_game **game, int x)
+// {
+// 	double posX = (*game)->cub->player_x;
+//   	double posY = (*game)->cub->player_y;
+// 	double dirX = -1, dirY = 0; //initial direction vector
+//   	double planeX = 0, planeY = 0.66;
+	  
+// 	  double cameraX = 2*x/S_W - 1; //x-coordinate in camera space
+//       double rayDirX = dirX + planeX*cameraX;
+//       double rayDirY = dirY + planeY*cameraX;
+
+//       //which box of the map we're in
+//       int mapX = (*game)->cub->player_x;
+//       int mapY = (*game)->cub->player_y;
+
+//       //length of ray from current position to next x or y-side
+//       double sideDistX;
+//       double sideDistY;
+
+//       //length of ray from one x or y-side to next x or y-side
+//       double deltaDistX = sqrt(1 + (rayDirY * rayDirY) / (rayDirX * rayDirX));
+//       double deltaDistY = sqrt(1 + (rayDirX * rayDirX) / (rayDirY * rayDirY));
+//       double perpWallDist;
+
+//       //what direction to step in x or y-direction (either +1 or -1)
+//       int stepX;
+//       int stepY;
+
+//       int hit = 0; //was there a wall hit?
+//       int side; //was a NS or a EW wall hit?
+
+//       //calculate step and initial sideDist
+//       if (rayDirX < 0)
+//       {
+//         stepX = -1;
+//         sideDistX = (posX - mapX) * deltaDistX;
+//       }
+//       else
+//       {
+//         stepX = 1;
+//         sideDistX = (mapX + 1.0 - posX) * deltaDistX;
+//       }
+//       if (rayDirY < 0)
+//       {
+//         stepY = -1;
+//         sideDistY = (posY - mapY) * deltaDistY;
+//       }
+//       else
+//       {
+//         stepY = 1;
+//         sideDistY = (mapY + 1.0 - posY) * deltaDistY;
+//       }
+// 	    while (hit == 0)
+//       {
+//         //jump to next map square, either in x-direction, or in y-direction
+//         if (sideDistX < sideDistY)
+//         {
+//           sideDistX += deltaDistX;
+//           mapX += stepX;
+//           side = 0;
+//         }
+//         else
+//         {
+//           sideDistY += deltaDistY;
+//           mapY += stepY;
+//           side = 1;
+//         }
+//         //Check if ray has hit a wall
+//         if (wall_hit(mapX, mapY, *game)) 
+// 			hit = 1;
+//       }
+
+//       //Calculate distance of perpendicular ray (Euclidean distance would give fisheye effect!)
+//       if(side == 0)
+// 	  {	perpWallDist = (sideDistX - deltaDistX);
+// 	  (*game)->ray->h_flg = 1;
+// 	  }
+//       else
+// 	  	{perpWallDist = (sideDistY - deltaDistY);
+// 		(*game)->ray->h_flg = 0;}
+// 	  (*game)->ray->dist = perpWallDist;
+//     //   //Calculate height of line to draw on screen
+//     //   int lineHeight = (int)(S_H / perpWallDist);
+
+//     //   //calculate lowest and highest pixel to fill in current stripe
+//     //   int drawStart = -lineHeight / 2 + h / 2;
+//     //   if(drawStart < 0) drawStart = 0;
+//     //   int drawEnd = lineHeight / 2 + h / 2;
+//     //   if(drawEnd >= h) drawEnd = h - 1;
+// }

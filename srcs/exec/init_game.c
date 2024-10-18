@@ -6,7 +6,7 @@
 /*   By: lkhalifa <lkhalifa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/10 12:07:56 by lkhalifa          #+#    #+#             */
-/*   Updated: 2024/10/17 18:35:49 by lkhalifa         ###   ########.fr       */
+/*   Updated: 2024/10/18 13:55:25 by lkhalifa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,6 @@ static void	init_img(t_cub *cub, t_game *g)
 
 static void	init_game(t_cub *cub, t_game *game) //use gc & protect memory
 {
-	game->w_map = 30; //TEST
 	game->h_map = 14; //TEST -> retrieve from parsing
 	game->player = malloc(sizeof(t_player)); //PROTECT
 	game->ray = malloc(sizeof(t_ray));       //PROTECT

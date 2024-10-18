@@ -6,7 +6,7 @@
 /*   By: lkhalifa <lkhalifa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/17 16:31:51 by lkhalifa          #+#    #+#             */
-/*   Updated: 2024/10/17 18:58:20 by lkhalifa         ###   ########.fr       */
+/*   Updated: 2024/10/18 16:33:33 by lkhalifa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,11 @@ static void	move_right(t_game *game, t_point *target_pos)
 
 static void update_game(t_game *game, t_point *target_pos)
 {
-    if (!wall_hit(target_pos->x, target_pos->y, game))
+	t_point p;
+
+	p.x = floor(target_pos->x / T_SIZE);
+	p.y = floor(target_pos->y / T_SIZE);
+    if (game->cub->maps[(int)p.y][(int)p.x] != '1')
     {
         game->player->x = target_pos->x;
         game->player->y = target_pos->y;

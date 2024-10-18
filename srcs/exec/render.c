@@ -6,7 +6,7 @@
 /*   By: lkhalifa <lkhalifa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/10 16:46:06 by lkhalifa          #+#    #+#             */
-/*   Updated: 2024/10/17 19:46:29 by lkhalifa         ###   ########.fr       */
+/*   Updated: 2024/10/18 16:52:36 by lkhalifa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,55 +20,59 @@ static void set_pixel(int color, t_game *game, int x, int y)
     *(unsigned int*)dst = color;
 }
 
-static void get_pos_y(int *pos_y, t_game *game, float draw_start, int y)
-{
-    float   pix_step;
-    float   tex_pos;
+// static void get_pos_y(int *pos_y, t_game *game, float draw_start, int y)
+// {
+//     float   pix_step;
+//     float   tex_pos;
     
-    pix_step = T_SIZE / (S_H / game->ray->dist);
-    tex_pos = (y - draw_start) * pix_step;
-    *pos_y = (int)tex_pos & (T_SIZE - 1);
-    *pos_y %= T_SIZE;
-}
+//     pix_step = T_SIZE / (S_H / game->ray->dist);
+//     tex_pos = (y - draw_start) * pix_step;
+//     *pos_y = (int)tex_pos & (T_SIZE - 1);
+//     // *pos_y %= T_SIZE;
+// }
 
-static void get_pos_x(int *pos_x, t_game *game)
-{
-    float   hit_pos;
+// static void get_pos_x(int *pos_x, t_game *game)
+// {
+//     float   hit_pos;
     
-    if (game->ray->h_flg)
-        hit_pos = game->ray->x_h_inter - floor(game->ray->x_h_inter);
-    else
-        hit_pos = game->ray->y_v_inter - floor(game->ray->y_v_inter);
-    *pos_x = hit_pos * T_SIZE;
-    if ((!game->ray->h_flg && game->ray->angle > M_PI)
-        || (game->ray->h_flg && game->ray->angle < M_PI)) //check this & adjust
-        *pos_x = T_SIZE - *pos_x - 1;
-    *pos_x %= T_SIZE;
-}
+//     if (game->ray->h_flg)
+//         hit_pos = game->ray->x_h_inter - floor(game->ray->x_h_inter);
+//     else
+//         hit_pos = game->ray->y_v_inter - floor(game->ray->y_v_inter);
+//     *pos_x = hit_pos * T_SIZE;
+//     if ((!game->ray->h_flg && game->ray->angle > M_PI)
+//         || (game->ray->h_flg && game->ray->angle < M_PI)) //check this & adjust
+//         *pos_x = T_SIZE - *pos_x - 1;
+//     *pos_x %= T_SIZE;
+// }
 
-static void set_texture(int tex_id, t_game *game, int x, int y, float draw_start) //NORM
-{
-    int     pos_x;
-    int     pos_y;
-    int     color;
+// static void set_texture(int tex_id, t_game *game, int x, int y, float draw_start) //NORM
+// {
+//     int     pos_x;
+//     int     pos_y;
+//     int     color;
     
-    get_pos_x(&pos_x, game);
-    get_pos_y(&pos_y, game, draw_start, y);
-    color = get_texture_color(game->textures[tex_id], pos_x, pos_y);
-    set_pixel(color, game, x, y);
-}
+//     get_pos_x(&pos_x, game);
+//     get_pos_y(&pos_y, game, draw_start, y);
+//     color = get_texture_color(game->textures[tex_id], pos_x, pos_y);
+//     set_pixel(color, game, x, y);
+// }
 
 static void draw_line(t_game *game, float draw_start, float draw_end, int texture, int x) //NORM
 {
     int y;
 
     y = -1;
+    (void)texture;
+    int color = 16711680;
+    if (!game->ray->h_flg)
+        color = 9109504;
     while(++y < S_H)
     {
         if (y < draw_start)
             set_pixel(game->img->c_rgb, game, x, y);
         else if (y >= draw_start && y < draw_end)
-            set_texture(texture, game, x, y, draw_start);
+            set_pixel(color, game, x, y);//set_texture(texture, game, x, y, draw_start);
         else
             set_pixel(game->img->f_rgb, game, x, y);
     }
@@ -77,8 +81,9 @@ static void draw_line(t_game *game, float draw_start, float draw_end, int textur
 static void get_wall_height(t_game *game, float *draw_start, float *draw_end)
 {
     float   wall_height;
-    
-    wall_height = S_H / game->ray->dist;
+
+    wall_height = (T_SIZE / game->ray->dist) * ((S_W / 2) / tan(game->player->fov_rd / 2));
+    // wall_height = S_H / game->ray->angle;
     *draw_start = -(wall_height / 2) + (S_H / 2);
     *draw_end = (wall_height / 2) + (S_H / 2);
     if (*draw_start < 0)
@@ -90,13 +95,12 @@ static void get_wall_height(t_game *game, float *draw_start, float *draw_end)
 void	render_map(t_game *game)
 {
     int		x;
-    int    texture;
+    int     texture;
     float   draw_start;
     float   draw_end;
 
 	x = -1;
 	game->ray->angle = norm_angle(game->player->angle - (game->player->fov_rd / 2));
-    // game->ray->angle = norm_angle(game->player->angle - (game->player->fov_rd / 2) + (x / S_W) * game->player->fov_rd);
 	while (++x < S_W)
 	{
         get_wall_distance(&game);
@@ -104,6 +108,8 @@ void	render_map(t_game *game)
         get_wall_height(game, &draw_start, &draw_end);
         texture = select_texture(game);
         draw_line(game, draw_start, draw_end, texture, x);
+        game->ray->angle += game->player->fov_rd / S_W;
+        game->ray->angle = norm_angle(game->ray->angle);
 	}
     mlx_put_image_to_window(game->mlx, game->win, game->img->img_p, 0, 0);
 }
