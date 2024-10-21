@@ -27,6 +27,7 @@ SRC_FLS			=	main.c \
 					$(EXEC_DIR)raycaster.c \
 					$(EXEC_DIR)utils.c \
 					$(EXEC_DIR)render.c \
+					$(EXEC_DIR)minimap.c \
 					$(EXEC_DIR)handle_moves.c \
 					$(EXEC_DIR)textures.c \
 					$(PARSE_DIR)init_utils.c \

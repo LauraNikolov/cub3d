@@ -3,20 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   parse_texture.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lkhalifa <lkhalifa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lnicolof <lnicolof@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/08 16:14:30 by lnicolof          #+#    #+#             */
-/*   Updated: 2024/10/17 15:52:15 by lkhalifa         ###   ########.fr       */
+/*   Updated: 2024/10/18 15:07:31 by lnicolof         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-
-
 static void parse_f_c(t_cub *cub, char *str)
 {
-    if (!cub->C && !strcmp("C", str))
+    if (!cub->C && !ft_strncmp("C", str, 1))
 	{
 		cub->C = check_rgb(cub, ft_substr(truncate_space(str, cub), 0,
 					ft_strlen(str) - 1));
@@ -28,7 +26,7 @@ static void parse_f_c(t_cub *cub, char *str)
 				cub);
 		}
 	}
-	else if (!cub->F && !strcmp("F", str))
+	else if (!cub->F && !ft_strncmp("F", str, 1))
 	{
 		cub->F = check_rgb(cub, ft_substr(truncate_space(str, cub), 0,
 					ft_strlen(str) - 1));
@@ -42,6 +40,7 @@ static void parse_f_c(t_cub *cub, char *str)
 		}
 	}
 }
+
 
 static void parse_cardinal(t_cub *cub, char *str)
 {
@@ -76,9 +75,8 @@ static void check_valid_data(t_cub *cub, char *str)
 	{
         // * si tous les points cardinauc et le sol et le ciel ont ete collecte, c la map?
 		if (cub->count_NO == 1 && cub->count_EA == 1 && cub->count_SO == 1
-			&& cub->count_WE == 1)
+			&& cub->count_WE == 1 && cub->count_C == 1 && cub->count_F == 1 && cub->new_line_maps == 1)
         {
-			printf("i am the maps : %s\n", str);
             collect_maps(cub, str);
         }
         // * sinon c de la merde
@@ -87,7 +85,7 @@ static void check_valid_data(t_cub *cub, char *str)
             free(str);
             get_next_line(0, 2);
             close(cub->fd);
-            clean_exit("error\n", cub->garbage_collector, cub);
+            clean_exit("error clean exit\n", cub->garbage_collector, cub);
         }
 		return ;
 	}
@@ -104,6 +102,10 @@ void	collect_data(t_cub *cub, char *str)
     // * si c un sol ou un ciel
     if (!ft_strncmp("F", str, 1) || !ft_strncmp("C", str, 1)) 
     {
+		if(!ft_strncmp("F", str, 1))
+			cub->count_F++;
+		if(!ft_strncmp("C", str, 1))
+			cub->count_C++;
         parse_f_c(cub, str); 
     }
     // * si plusieurs donnes ont ete renseignee deux fois

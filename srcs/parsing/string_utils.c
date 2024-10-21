@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   string_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lkhalifa <lkhalifa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lnicolof <lnicolof@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/02 18:29:43 by lnicolof          #+#    #+#             */
-/*   Updated: 2024/10/11 15:04:15 by lkhalifa         ###   ########.fr       */
+/*   Updated: 2024/10/21 15:28:03 by lnicolof         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,17 +14,37 @@
 
 
 
-int clean_exit(char *msg, t_garbage_collector *gc, t_cub *cub)
+void free_tab(char **strs)
 {
-    int i;
+	if(!strs)
+		return ;
+	int i;
 
-    i = ft_strlen(msg);
-    write(1, msg, i);
-    gc_free(gc);
-    free(cub);
-    exit(1);
+	i = 0;
+	while(strs[i])
+	{
+		free(strs[i]);
+		strs[i] = NULL;
+		i++;
+	}
+	free(strs);
 }
 
+
+
+int	clean_exit(char *msg, t_garbage_collector *gc, t_cub *cub)
+{
+	int	i;
+
+	i = ft_strlen(msg);
+	write(1, msg, i);
+	if (gc)
+		gc_free(gc);
+	if(cub->maps)
+		free_tab(cub->maps);
+	free(cub);
+	exit(1);
+}
 
 long	ft_atol(char *nptr)
 {
@@ -56,13 +76,23 @@ long	ft_atol(char *nptr)
 int	is_overflow(char *str)
 {
 	char	*cmp;
+	char	*new_str;
 
+	if (!str)
+		return (1);
 	cmp = ft_itoa(ft_atol(str));
-	if (ft_strlen(cmp) == ft_strlen(str) && !ft_strncmp(str, cmp,
+	new_str = ft_itoa(ft_atoi(str));
+	if (ft_strlen(cmp) == ft_strlen(new_str) && !ft_strncmp(new_str, cmp,
 			ft_strlen(cmp)))
-		return (free(cmp), 0);
+	{
+		return (free(cmp), free(new_str), 0);
+	}
 	else
-		return (free(cmp), 1);
+	{
+		printf("resulat de atol et resultat de atoi : (%s) et (%s)\n", cmp,
+			new_str);
+		return (free(cmp), free(new_str), 1);
+	}
 }
 
 char	*truncate_space(char *src, t_cub *cub)

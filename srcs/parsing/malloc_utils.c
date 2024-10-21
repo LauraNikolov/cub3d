@@ -36,6 +36,7 @@ void gc_free(t_garbage_collector *gc)
     current = gc->head;
     while (current != NULL) {
         free(current->ptr); 
+        current->ptr = NULL;
         temp = current;
         current = current->next;
         free(temp);
@@ -48,14 +49,16 @@ void gc_double_add(t_garbage_collector *gc, void **ptr)
 {
     int i;
 
+    if (!ptr) // Vérification avant de commencer
+        return;
+
     i = 0;
-    while(ptr[i])
+    while (ptr[i])
     {
         gc_add(gc, (void *)ptr[i]);
         i++;
     }
-    gc_add(gc, (void *)ptr);
-
+    gc_add(gc, (void *)ptr); // Assurez-vous que ptr lui-même est valide
 }
 
 void gc_add(t_garbage_collector *gc, void *ptr)

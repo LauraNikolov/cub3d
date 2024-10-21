@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lkhalifa <lkhalifa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lnicolof <lnicolof@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/02 15:20:33 by lnicolof          #+#    #+#             */
-/*   Updated: 2024/10/10 14:32:59 by lkhalifa         ###   ########.fr       */
+/*   Updated: 2024/10/18 16:48:37 by lnicolof         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,11 +17,11 @@
 #  define BUFFER_SIZE 42
 # endif
 
+# include "cub_exec.h"
 # include <fcntl.h>
 # include <stdio.h>
 # include <stdlib.h>
 # include <unistd.h>
-# include "cub_exec.h"
 
 typedef struct s_collector_node
 {
@@ -43,6 +43,8 @@ typedef struct s_cub
 	int						count_SO;
 	int						count_EA;
 	int						count_WE;
+	int						count_C;
+	int						count_F;
 	char					*NO;
 	char					*SO;
 	char					*WE;
@@ -59,6 +61,7 @@ typedef struct s_cub
 	int						player_y;
 	char					player_cardinal;
 	int						fd;
+	int						new_line_maps;
 
 }							t_cub;
 
@@ -84,7 +87,7 @@ int							ft_is_empty(char *line);
 void						collect_data(t_cub *cub, char *str);
 char						**check_rgb(t_cub *cub, char *str);
 int							add_rgb(t_cub *cub, char *str);
-char						**realloc_tab(char **old, char *new);
+char						**realloc_tab(char **old, char *new, t_cub *cub);
 
 // parsing maps
 void						collect_maps(t_cub *cub, char *str);

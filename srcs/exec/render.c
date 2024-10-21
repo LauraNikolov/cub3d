@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   render.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lkhalifa <lkhalifa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lnicolof <lnicolof@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/10 16:46:06 by lkhalifa          #+#    #+#             */
-/*   Updated: 2024/10/17 19:46:29 by lkhalifa         ###   ########.fr       */
+/*   Updated: 2024/10/21 19:15:05 by lnicolof         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-static void set_pixel(int color, t_game *game, int x, int y)
+void set_pixel(int color, t_game *game, int x, int y)
 {
     char    *dst;
     
@@ -20,64 +20,51 @@ static void set_pixel(int color, t_game *game, int x, int y)
     *(unsigned int*)dst = color;
 }
 
-static void get_pos_y(int *pos_y, t_game *game, float draw_start, int y)
+static void get_pos_x(t_point *pos, t_game *game)
 {
-    float   pix_step;
-    float   tex_pos;
+    double hit_pos;
     
-    pix_step = T_SIZE / (S_H / game->ray->dist);
-    tex_pos = (y - draw_start) * pix_step;
-    *pos_y = (int)tex_pos & (T_SIZE - 1);
-    *pos_y %= T_SIZE;
-}
-
-static void get_pos_x(int *pos_x, t_game *game)
-{
-    float   hit_pos;
-    
-    if (game->ray->h_flg)
-        hit_pos = game->ray->x_h_inter - floor(game->ray->x_h_inter);
+    if (!game->ray->h_flg)
+        hit_pos = game->pos.y + game->ray->dist * game->dda->ray_dir.y;
     else
-        hit_pos = game->ray->y_v_inter - floor(game->ray->y_v_inter);
-    *pos_x = hit_pos * T_SIZE;
-    if ((!game->ray->h_flg && game->ray->angle > M_PI)
-        || (game->ray->h_flg && game->ray->angle < M_PI)) //check this & adjust
-        *pos_x = T_SIZE - *pos_x - 1;
-    *pos_x %= T_SIZE;
+        hit_pos = game->pos.x + game->ray->dist * game->dda->ray_dir.x;
+    hit_pos -= floor((hit_pos));
+    pos->x = (int)(hit_pos * (double)T_SIZE);
+    if ((!game->ray->h_flg && game->dda->ray_dir.x > 0)
+        || (game->ray->h_flg && game->dda->ray_dir.y < 0))
+    {    pos->x = T_SIZE - pos->x - 1;}
 }
 
-static void set_texture(int tex_id, t_game *game, int x, int y, float draw_start) //NORM
+static void draw_line(t_game *game, int draw_start, int draw_end, int x)
 {
-    int     pos_x;
-    int     pos_y;
-    int     color;
-    
-    get_pos_x(&pos_x, game);
-    get_pos_y(&pos_y, game, draw_start, y);
-    color = get_texture_color(game->textures[tex_id], pos_x, pos_y);
-    set_pixel(color, game, x, y);
-}
-
-static void draw_line(t_game *game, float draw_start, float draw_end, int texture, int x) //NORM
-{
-    int y;
+    t_point pos;
+    double  step;
+    double  tex_pos;
+    int     y;
 
     y = -1;
+    step = 1.0 * T_SIZE / (draw_end - draw_start);
+    tex_pos = (draw_start - S_H / 2 + (draw_end - draw_start) / 2) * step;
+    get_pos_x(&pos, game);
     while(++y < S_H)
     {
         if (y < draw_start)
             set_pixel(game->img->c_rgb, game, x, y);
         else if (y >= draw_start && y < draw_end)
-            set_texture(texture, game, x, y, draw_start);
+        {
+            pos.y = (int)tex_pos & (T_SIZE - 1);
+            tex_pos += step;
+            set_texture(game, pos, x, y);
+        }
         else
             set_pixel(game->img->f_rgb, game, x, y);
     }
 }
 
-static void get_wall_height(t_game *game, float *draw_start, float *draw_end)
+static void get_wall_height(t_game *game, int *draw_start, int *draw_end)
 {
-    float   wall_height;
-    
+    int   wall_height;
+
     wall_height = S_H / game->ray->dist;
     *draw_start = -(wall_height / 2) + (S_H / 2);
     *draw_end = (wall_height / 2) + (S_H / 2);
@@ -90,20 +77,17 @@ static void get_wall_height(t_game *game, float *draw_start, float *draw_end)
 void	render_map(t_game *game)
 {
     int		x;
-    int    texture;
-    float   draw_start;
-    float   draw_end;
+    int     draw_start;
+    int     draw_end;
 
 	x = -1;
-	game->ray->angle = norm_angle(game->player->angle - (game->player->fov_rd / 2));
-    // game->ray->angle = norm_angle(game->player->angle - (game->player->fov_rd / 2) + (x / S_W) * game->player->fov_rd);
 	while (++x < S_W)
 	{
-        get_wall_distance(&game);
-        game->ray->dist *= cos(norm_angle(game->ray->angle - game->player->angle)); //correct fisheye effect
+        get_wall_distance(&game, x);
+        select_texture(game);
         get_wall_height(game, &draw_start, &draw_end);
-        texture = select_texture(game);
-        draw_line(game, draw_start, draw_end, texture, x);
+        draw_line(game, draw_start, draw_end, x);
 	}
+    //draw_minimap(game);
     mlx_put_image_to_window(game->mlx, game->win, game->img->img_p, 0, 0);
 }

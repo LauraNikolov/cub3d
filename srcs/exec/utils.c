@@ -3,14 +3,21 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lkhalifa <lkhalifa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lnicolof <lnicolof@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/04 14:44:09 by lkhalifa          #+#    #+#             */
-/*   Updated: 2024/10/12 19:14:49 by lkhalifa         ###   ########.fr       */
+/*   Updated: 2024/10/21 17:23:50 by lnicolof         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
+
+void print_error(char *str, t_game *game)
+{
+	ft_putstr_fd("Error: ", 2);
+	ft_putstr_fd(str, 2);
+	clear_all(game);
+}
 
 void	clear_images(t_game *game)
 {
@@ -19,45 +26,33 @@ void	clear_images(t_game *game)
 	i = -1;
 	while (game->textures[++i].img_p && i < 4)
 		mlx_destroy_image(game->mlx, game->textures[i].img_p);
-	mlx_destroy_image(game->mlx, game->img->img_p);
+	if (game->img->img_p)
+		mlx_destroy_image(game->mlx, game->img->img_p);
 }
 
 void	clear_all(t_game *game)
 {
 	clear_images(game);
-	mlx_destroy_display(game->mlx);
-	free(game->mlx);
-	clear_tab(game->cub->maps); //TEST (valgrind error)
+	if (game->mlx)
+	{
+		mlx_destroy_display(game->mlx);
+		free(game->mlx);
+	}
+	//clear_tab(game->cub->maps); //TEST
 	free(game->cub);
-	free(game->player);
-	free(game->img);
-	free(game->ray);
+	if (game->dda)
+		free(game->dda);
+	if (game->img)
+		free(game->img);
+	if (game->ray)
+		free(game->ray);
 	exit(0);
 }
 
 int	clear_game(t_game *game)
 {
-	// gc_free(game->cub->garbage_collector); //TEST
+	// gc_free(game->cub->garbage_collector);
 	mlx_destroy_window(game->mlx, game->win);
 	clear_all(game);
 	return (0);
-}
-
-// Check pos of angle on unit circle to adjust step
-int	unit_circle(float angle, char c)
-{
-	if (c == 'x' && (angle > 0 && angle < M_PI))
-		return (1);
-	if (c == 'y' && (angle > (M_PI / 2) && angle < (3 * M_PI / 2)))
-		return (1);
-	return (0);
-}
-
-// Normalize angles between 0 and 2π
-double	norm_angle(double x)
-{
-	x = fmod(x, 2 * M_PI);
-	if (x < 0)
-		x += 2 * M_PI;
-	return (x);
 }

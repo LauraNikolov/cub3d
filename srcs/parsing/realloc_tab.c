@@ -6,7 +6,7 @@
 /*   By: lnicolof <lnicolof@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/08 16:52:51 by lnicolof          #+#    #+#             */
-/*   Updated: 2024/10/10 11:26:14 by lnicolof         ###   ########.fr       */
+/*   Updated: 2024/10/18 16:48:56 by lnicolof         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,13 +26,14 @@ int tab_len(char **tab)
 }
 
 
-char **realloc_tab(char **old, char *new)
+char **realloc_tab(char **old, char *new, t_cub *cub)
 {
     int size;
     int i;
     char **new_tab;
 
     i = 0;
+    (void)cub;
     if (!old)
     {
         new_tab = (char **)malloc(sizeof(char *) * 2);
