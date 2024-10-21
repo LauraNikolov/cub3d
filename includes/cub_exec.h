@@ -6,7 +6,7 @@
 /*   By: lnicolof <lnicolof@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/01 15:22:45 by lkhalifa          #+#    #+#             */
-/*   Updated: 2024/10/21 19:09:07 by lnicolof         ###   ########.fr       */
+/*   Updated: 2024/10/21 19:24:52 by lnicolof         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,13 +22,13 @@
 # define ROTATION_SPEED 0.08
 # define MOVE_SPEED 0.4
 # define COLLISION 0.4
-# define MAP_WIDTH 10      // Largeur de la carte
-# define MAP_HEIGHT 10     // Hauteur de la carte
-# define MINI_MAP_SIZE 200 // Taille de la minimap (en pixels)
+# define MAP_WIDTH 10 
+# define MAP_HEIGHT 10  
+# define MINI_MAP_SIZE 200 
 # define CELL_SIZE (MINI_MAP_SIZE / S_W)
 # define WALL_COLOR 0x0000FF
 # define FLOOR_COLOR 0xFF0000
-# define PLAYER_COLOR 0xFFA500 // Taille d'une cellule dans la minimap
+# define PLAYER_COLOR 0xFFA500
 
 /* ------------  LIBRARIES  ------------------------------------------------ */
 //# include "../libft/ft_printf/ft_printf.h"
