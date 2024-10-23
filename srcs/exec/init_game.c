@@ -6,7 +6,7 @@
 /*   By: lnicolof <lnicolof@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/10 12:07:56 by lkhalifa          #+#    #+#             */
-/*   Updated: 2024/10/21 17:30:03 by lnicolof         ###   ########.fr       */
+/*   Updated: 2024/10/23 13:55:26 by lnicolof         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,15 +69,16 @@ static void	init_dir(t_game *game)
 	}
 }
 
-static void	init_game(t_cub *cub, t_game *game) // use gc
+static void	init_game(t_cub *cub, t_game *game)
 {
+
+	game->cub = cub;
 	game->ray = ft_calloc(1, sizeof(t_ray));
 	if (!game->ray)
 		print_error("Memory allocation failed.\n", game);
 	game->dda = ft_calloc(1, sizeof(t_dda));
 	if (!game->dda)
 		print_error("Memory allocation failed.\n", game);
-	game->cub = cub;
 	game->pos.x = game->cub->player_x;
 	game->pos.y = game->cub->player_y;
 }
@@ -88,7 +89,10 @@ void	start_game(t_cub *cub)
 
 	game.mlx = mlx_init();
 	if (!game.mlx)
+	{
+		gc_free(cub->garbage_collector);
 		print_error("MLX initialization failed.\n", &game);
+	}
 	init_game(cub, &game);
 	init_dir(&game);
 	init_img(cub, &game);

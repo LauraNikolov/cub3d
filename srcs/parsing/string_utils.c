@@ -6,22 +6,20 @@
 /*   By: lnicolof <lnicolof@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/02 18:29:43 by lnicolof          #+#    #+#             */
-/*   Updated: 2024/10/21 15:28:03 by lnicolof         ###   ########.fr       */
+/*   Updated: 2024/10/23 15:27:10 by lnicolof         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-
-
-void free_tab(char **strs)
+void	free_tab(char **strs)
 {
-	if(!strs)
-		return ;
-	int i;
+	int	i;
 
+	if (!strs)
+		return ;
 	i = 0;
-	while(strs[i])
+	while (strs[i])
 	{
 		free(strs[i]);
 		strs[i] = NULL;
@@ -29,8 +27,6 @@ void free_tab(char **strs)
 	}
 	free(strs);
 }
-
-
 
 int	clean_exit(char *msg, t_garbage_collector *gc, t_cub *cub)
 {
@@ -40,8 +36,8 @@ int	clean_exit(char *msg, t_garbage_collector *gc, t_cub *cub)
 	write(1, msg, i);
 	if (gc)
 		gc_free(gc);
-	if(cub->maps)
-		free_tab(cub->maps);
+	// if(cub->maps)
+	// 	free_tab(cub->maps);
 	free(cub);
 	exit(1);
 }
@@ -75,24 +71,32 @@ long	ft_atol(char *nptr)
 
 int	is_overflow(char *str)
 {
+	int		i;
 	char	*cmp;
 	char	*new_str;
+	char	*cpy;
 
+	cpy = str;
+	new_str = NULL;
+	cmp = NULL;
+	i = 0;
 	if (!str)
 		return (1);
+	while (cpy[i] && cpy[i] == ' ')
+		i++;
+	if (!cpy[i])
+		return (free(cmp), free(new_str), 1);
 	cmp = ft_itoa(ft_atol(str));
 	new_str = ft_itoa(ft_atoi(str));
 	if (ft_strlen(cmp) == ft_strlen(new_str) && !ft_strncmp(new_str, cmp,
 			ft_strlen(cmp)))
 	{
+		if (ft_atol(str) > 255 || ft_atol(str) < 0)
+			return (free(cmp), free(new_str), 1);
 		return (free(cmp), free(new_str), 0);
 	}
 	else
-	{
-		printf("resulat de atol et resultat de atoi : (%s) et (%s)\n", cmp,
-			new_str);
 		return (free(cmp), free(new_str), 1);
-	}
 }
 
 char	*truncate_space(char *src, t_cub *cub)

@@ -6,7 +6,7 @@
 /*   By: lnicolof <lnicolof@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/02 15:20:33 by lnicolof          #+#    #+#             */
-/*   Updated: 2024/10/18 16:48:37 by lnicolof         ###   ########.fr       */
+/*   Updated: 2024/10/23 15:47:10 by lnicolof         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,7 @@ typedef struct s_cub
 	char					player_cardinal;
 	int						fd;
 	int						new_line_maps;
+	int						new_line_in_maps;
 
 }							t_cub;
 
@@ -83,11 +84,13 @@ int							valid_file(char *str, t_cub *cub);
 void						gc_double_add(t_garbage_collector *gc, void **ptr);
 char						*truncate_space(char *src, t_cub *cub);
 int							valid_file(char *str, t_cub *cub);
-int							ft_is_empty(char *line);
+int							ft_is_empty(char *line, t_cub *cub);
+void						free_tab(char **strs);
 void						collect_data(t_cub *cub, char *str);
 char						**check_rgb(t_cub *cub, char *str);
 int							add_rgb(t_cub *cub, char *str);
 char						**realloc_tab(char **old, char *new, t_cub *cub);
+int							collect_all(t_cub *cub);
 
 // parsing maps
 void						collect_maps(t_cub *cub, char *str);

@@ -6,7 +6,7 @@
 /*   By: lnicolof <lnicolof@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/08 16:33:23 by lnicolof          #+#    #+#             */
-/*   Updated: 2024/10/18 14:23:24 by lnicolof         ###   ########.fr       */
+/*   Updated: 2024/10/23 15:24:11 by lnicolof         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,16 +45,16 @@ static int	add_F(t_cub *cub)
 	if (!is_overflow(cub->F[0]))
 		cub->F_R = ft_atoi(cub->F[0]);
 	else
-		clean_exit("int overflow on F RGB\n", cub->garbage_collector, cub);
+		clean_exit("Error: Wrong RGB\n", cub->garbage_collector, cub);
 	if (!is_overflow(cub->F[1]))
 		cub->F_G = ft_atoi(cub->F[1]);
 	else
-		clean_exit("int overflow on F RGB\n", cub->garbage_collector, cub);
+		clean_exit("Error: Wrong RGB\n", cub->garbage_collector, cub);
 	if (!is_overflow(cub->F[2]))
 		cub->F_B = ft_atoi(cub->F[2]);
 	else
-		clean_exit("int overflow on F RGB\n", cub->garbage_collector, cub);
-    return(0);
+		clean_exit("Error: Wrong RGB\n", cub->garbage_collector, cub);
+	return (0);
 }
 
 static int	add_C(t_cub *cub)
@@ -62,23 +62,58 @@ static int	add_C(t_cub *cub)
 	if (!is_overflow(cub->C[0]))
 		cub->C_R = ft_atoi(cub->C[0]);
 	else
-		clean_exit("int overflow on C RGB\n", cub->garbage_collector, cub);
+		clean_exit("Error: Wrong RGB\n", cub->garbage_collector, cub);
 	if (!is_overflow(cub->C[1]))
 		cub->C_G = ft_atoi(cub->C[1]);
 	else
-		clean_exit("int overflow on C RGB\n", cub->garbage_collector, cub);
+		clean_exit("Error: Wrong RGB\n", cub->garbage_collector, cub);
 	if (!is_overflow(cub->C[2]))
 		cub->C_B = ft_atoi(cub->C[2]);
 	else
-		clean_exit("int overflow on C RGB\n", cub->garbage_collector, cub);
-    return(0);
+		clean_exit("Error: Wrong RGB\n", cub->garbage_collector, cub);
+	return (0);
+}
+
+static void	check_rgb_len(t_cub *cub)
+{
+	int		i;
+	char	**F;
+	char	**C;
+
+	if (!cub->F || !cub->C)
+		clean_exit("Error: invalid RGB\n", cub->garbage_collector, cub);
+	i = 0;
+	F = cub->F;
+	C = cub->C;
+	while (cub->F[i])
+	{
+		if (!cub->F[i][0])
+			clean_exit("Error: invalid RGB\n", cub->garbage_collector, cub);
+		i++;
+	}
+	printf("i F== %d\n", i);
+	if (i != 3)
+		clean_exit("Error: invalid RGB\n", cub->garbage_collector, cub);
+	i = 0;
+	while (cub->C[i])
+	{
+		if (!cub->C[i][0])
+			clean_exit("Error: invalid RGB\n", cub->garbage_collector, cub);
+		i++;
+	}
+		printf("i F== %d\n", i);
+	if (i != 3)
+	{
+		clean_exit("Error: invalid RGB\n", cub->garbage_collector, cub);
+	}
 }
 
 int	add_rgb(t_cub *cub, char *str)
 {
+	check_rgb_len(cub);
 	if (ft_strncmp(str, "F", 1))
-        add_F(cub);
+		add_F(cub);
 	else if (ft_strncmp(str, "C", 1))
-        add_C(cub);
+		add_C(cub);
 	return (0);
 }

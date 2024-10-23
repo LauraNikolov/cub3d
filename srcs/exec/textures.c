@@ -6,11 +6,12 @@
 /*   By: lnicolof <lnicolof@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/12 19:02:30 by lkhalifa          #+#    #+#             */
-/*   Updated: 2024/10/21 17:13:44 by lnicolof         ###   ########.fr       */
+/*   Updated: 2024/10/23 13:54:44 by lnicolof         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
+
 
 void	set_texture(t_game *game, t_point pos, int x, int y)
 {

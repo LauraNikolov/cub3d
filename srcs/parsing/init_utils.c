@@ -6,12 +6,11 @@
 /*   By: lnicolof <lnicolof@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/08 16:11:01 by lnicolof          #+#    #+#             */
-/*   Updated: 2024/10/17 15:16:00 by lnicolof         ###   ########.fr       */
+/*   Updated: 2024/10/23 15:47:36 by lnicolof         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
-
 
 int	valid_file(char *str, t_cub *cub)
 {
@@ -38,13 +37,22 @@ int	valid_file(char *str, t_cub *cub)
 		return (fd);
 }
 
-int	ft_is_empty(char *line)
+int	ft_is_empty(char *line, t_cub *cub)
 {
 	int	i;
 
 	i = 0;
+	(void)cub;
 	while (line[i])
 	{
+		if (line[i] == '\t')
+		{
+			get_next_line(0, 2);
+			free(line);
+			if(cub->maps)
+				free_tab(cub->maps);
+			clean_exit("Error: use space not tab\n", cub->garbage_collector, cub);
+		}
 		if (line[i] != ' ' && line[i] != '\n')
 			return (1);
 		i++;

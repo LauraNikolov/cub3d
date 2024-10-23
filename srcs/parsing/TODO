@@ -1,0 +1,7 @@
+- newline dans la maps -> ok
+- tab dans le fichier -> ok
+- pb d'ouverture des textures
+- segfault chmod
+- nombre de rgb 
+- max 255 min 0 en rgb
+- si je met EAS, WES etc
