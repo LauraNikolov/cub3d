@@ -3,15 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   gnl_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lkhalifa <lkhalifa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lnicolof <lnicolof@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/02 15:20:00 by lnicolof          #+#    #+#             */
-/*   Updated: 2024/10/10 14:54:12 by lkhalifa         ###   ########.fr       */
+/*   Updated: 2024/10/24 19:16:26 by lnicolof         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
-
 
 char	*ft_strdup_gnl(char *str, int len)
 {

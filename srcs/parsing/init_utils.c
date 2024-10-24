@@ -6,11 +6,30 @@
 /*   By: lnicolof <lnicolof@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/08 16:11:01 by lnicolof          #+#    #+#             */
-/*   Updated: 2024/10/23 15:47:36 by lnicolof         ###   ########.fr       */
+/*   Updated: 2024/10/24 19:25:53 by lnicolof         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
+
+void	remove_newline(char *str, t_cub *cub)
+{
+	size_t	len;
+
+	if (!str)
+		return ;
+	if (str[0] == '\n')
+	{
+		close(cub->fd);
+		get_next_line(0, 2);
+		free(str);
+		gc_double_add(cub->garbage_collector, (void **)cub->maps);
+		clean_exit("Error: newline in the maps\n", cub->garbage_collector, cub);
+	}
+	len = ft_strlen(str);
+	if (len > 0 && str[len - 1] == '\n')
+		str[len - 1] = '\0';
+}
 
 int	valid_file(char *str, t_cub *cub)
 {
@@ -49,9 +68,10 @@ int	ft_is_empty(char *line, t_cub *cub)
 		{
 			get_next_line(0, 2);
 			free(line);
-			if(cub->maps)
+			if (cub->maps)
 				free_tab(cub->maps);
-			clean_exit("Error: use space not tab\n", cub->garbage_collector, cub);
+			clean_exit("Error: use space not tab\n", cub->garbage_collector,
+				cub);
 		}
 		if (line[i] != ' ' && line[i] != '\n')
 			return (1);

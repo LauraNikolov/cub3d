@@ -1,8 +1,8 @@
 C 220, 115,   245
-NO ./textures/1.xpm
-SO ./textures/2.xpm
-WE             ./textures/3.xpm
-EA   ./textures/4.xpm
+NO ./textures/64x64.xpm
+SO ./textures/86.xpm
+WE             ./textures/text2.xpm
+EA   ./textures/newtexttext.xpm
 F 60 , 22, 33
 
 111111111111111111111111

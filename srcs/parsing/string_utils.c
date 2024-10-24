@@ -6,7 +6,7 @@
 /*   By: lnicolof <lnicolof@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/02 18:29:43 by lnicolof          #+#    #+#             */
-/*   Updated: 2024/10/23 15:27:10 by lnicolof         ###   ########.fr       */
+/*   Updated: 2024/10/24 19:31:18 by lnicolof         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,8 +36,6 @@ int	clean_exit(char *msg, t_garbage_collector *gc, t_cub *cub)
 	write(1, msg, i);
 	if (gc)
 		gc_free(gc);
-	// if(cub->maps)
-	// 	free_tab(cub->maps);
 	free(cub);
 	exit(1);
 }
@@ -77,8 +75,8 @@ int	is_overflow(char *str)
 	char	*cpy;
 
 	cpy = str;
-	new_str = NULL;
-	cmp = NULL;
+	cmp = ft_itoa(ft_atol(str));
+	new_str = ft_itoa(ft_atoi(str));
 	i = 0;
 	if (!str)
 		return (1);
@@ -86,8 +84,6 @@ int	is_overflow(char *str)
 		i++;
 	if (!cpy[i])
 		return (free(cmp), free(new_str), 1);
-	cmp = ft_itoa(ft_atol(str));
-	new_str = ft_itoa(ft_atoi(str));
 	if (ft_strlen(cmp) == ft_strlen(new_str) && !ft_strncmp(new_str, cmp,
 			ft_strlen(cmp)))
 	{
@@ -101,9 +97,10 @@ int	is_overflow(char *str)
 
 char	*truncate_space(char *src, t_cub *cub)
 {
-	int i = 0;
-	char *dest;
+	int		i;
+	char	*dest;
 
+	i = 0;
 	while (src && src[i] >= 'A' && src[i] <= 'Z')
 		i++;
 	while (src && (src[i] == ' ' || src[i] == ' '))

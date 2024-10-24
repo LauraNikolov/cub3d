@@ -3,13 +3,12 @@
 /*                                                        :::      ::::::::   */
 /*   gnl.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lkhalifa <lkhalifa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lnicolof <lnicolof@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/02 15:18:56 by lnicolof          #+#    #+#             */
-/*   Updated: 2024/10/10 14:54:17 by lkhalifa         ###   ########.fr       */
+/*   Updated: 2024/10/24 19:18:37 by lnicolof         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 #include "cub3d.h"
 
@@ -40,15 +39,20 @@ char	*ft_extract_line(char **stash, int *readed)
 	return (cpy);
 }
 
+static void	set_line_null(char *line)
+{
+	free(line);
+	line = NULL;
+}
+
 char	*get_next_line(int fd, int flag)
 {
 	static char	*stash;
 	char		*line;
 	int			readed;
 
-	
-	if(flag == 2)
-		return(free(stash), NULL);
+	if (flag == 2)
+		return (free(stash), NULL);
 	readed = 1;
 	if (fd < 0 || read(fd, 0, 0) < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
@@ -64,9 +68,6 @@ char	*get_next_line(int fd, int flag)
 			break ;
 	}
 	if (line)
-	{
-		free(line);
-		line = NULL;
-	}
+		set_line_null(line);
 	return (ft_extract_line(&stash, &readed));
 }

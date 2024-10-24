@@ -6,37 +6,35 @@
 /*   By: lnicolof <lnicolof@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/01 15:22:45 by lkhalifa          #+#    #+#             */
-/*   Updated: 2024/10/21 19:24:52 by lnicolof         ###   ########.fr       */
+/*   Updated: 2024/10/24 19:59:20 by lnicolof         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef CUB_H
+#ifndef CUB_EXEC_H
 
-# define CUB_H
+# define CUB_EXEC_H
 
 /* ------------  MACROS  --------------------------------------------------- */
 # define S_W 1500
 # define S_H 1000
-# define T_SIZE 32
+# define T_SIZE 64
 # define FOV 66
-# define ROTATION_SPEED 0.08
-# define MOVE_SPEED 0.4
-# define COLLISION 0.4
-# define MAP_WIDTH 10 
-# define MAP_HEIGHT 10  
-# define MINI_MAP_SIZE 200 
-# define CELL_SIZE (MINI_MAP_SIZE / S_W)
+# define ROTATION_SPEED 0.06
+# define MOVE_SPEED 0.3
+# define COLLISION 0.2
+# define MAP_WIDTH 10
+# define MAP_HEIGHT 10
 # define WALL_COLOR 0x0000FF
 # define FLOOR_COLOR 0xFF0000
 # define PLAYER_COLOR 0xFFA500
 
 /* ------------  LIBRARIES  ------------------------------------------------ */
-//# include "../libft/ft_printf/ft_printf.h"
 # include "../libft/libft.h"
 # include "../mlx_linux/mlx.h"
 # include <X11/X.h>
 # include <X11/keysym.h>
 # include <math.h>
+# include <stdbool.h>
 # include <stdio.h>
 # include <stdlib.h>
 # include <string.h>
@@ -88,6 +86,7 @@ typedef struct s_textures
 	int					size_line;
 	int					width;
 	int					height;
+	int					pix;
 }						t_texture;
 
 typedef struct s_player
@@ -124,6 +123,7 @@ void					print_error(char *str, t_game *game);
 void					clear_images(t_game *game);
 void					clear_all(t_game *game);
 int						clear_game(t_game *game);
+void					init_img(t_cub *cub, t_game *g);
 
 /* TEXTURES */
 void					set_texture(t_game *game, t_point pos, int x, int y);
@@ -137,11 +137,14 @@ int						wall_hit(float x, float y, t_game *game);
 void					get_wall_distance(t_game **game, int x);
 
 /* HANDLE MOVES */
+bool					hit_box(t_game *game, double x, double y);
 int						on_keypress(int keysym, t_game *game);
+void					move_up(t_game *game);
+void					move_down(t_game *game);
 
 /* GAME */
 void					start_game(t_cub *cub);
 void					normalize_direction(t_game *game);
 void					draw_minimap(t_game *game);
 
-#endif // CUB_H
+#endif // CUB_EXEC_H

@@ -6,7 +6,7 @@
 /*   By: lnicolof <lnicolof@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/08 16:33:23 by lnicolof          #+#    #+#             */
-/*   Updated: 2024/10/23 15:24:11 by lnicolof         ###   ########.fr       */
+/*   Updated: 2024/10/24 19:50:09 by lnicolof         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,35 +40,35 @@ char	**check_rgb(t_cub *cub, char *str)
 	return (strs);
 }
 
-static int	add_F(t_cub *cub)
+static int	add_f(t_cub *cub)
 {
-	if (!is_overflow(cub->F[0]))
-		cub->F_R = ft_atoi(cub->F[0]);
+	if (!is_overflow(cub->f[0]))
+		cub->f_r = ft_atoi(cub->f[0]);
 	else
 		clean_exit("Error: Wrong RGB\n", cub->garbage_collector, cub);
-	if (!is_overflow(cub->F[1]))
-		cub->F_G = ft_atoi(cub->F[1]);
+	if (!is_overflow(cub->f[1]))
+		cub->f_g = ft_atoi(cub->f[1]);
 	else
 		clean_exit("Error: Wrong RGB\n", cub->garbage_collector, cub);
-	if (!is_overflow(cub->F[2]))
-		cub->F_B = ft_atoi(cub->F[2]);
+	if (!is_overflow(cub->f[2]))
+		cub->f_b = ft_atoi(cub->f[2]);
 	else
 		clean_exit("Error: Wrong RGB\n", cub->garbage_collector, cub);
 	return (0);
 }
 
-static int	add_C(t_cub *cub)
+static int	add_c(t_cub *cub)
 {
-	if (!is_overflow(cub->C[0]))
-		cub->C_R = ft_atoi(cub->C[0]);
+	if (!is_overflow(cub->c[0]))
+		cub->c_r = ft_atoi(cub->c[0]);
 	else
 		clean_exit("Error: Wrong RGB\n", cub->garbage_collector, cub);
-	if (!is_overflow(cub->C[1]))
-		cub->C_G = ft_atoi(cub->C[1]);
+	if (!is_overflow(cub->c[1]))
+		cub->c_g = ft_atoi(cub->c[1]);
 	else
 		clean_exit("Error: Wrong RGB\n", cub->garbage_collector, cub);
-	if (!is_overflow(cub->C[2]))
-		cub->C_B = ft_atoi(cub->C[2]);
+	if (!is_overflow(cub->c[2]))
+		cub->c_b = ft_atoi(cub->c[2]);
 	else
 		clean_exit("Error: Wrong RGB\n", cub->garbage_collector, cub);
 	return (0);
@@ -77,43 +77,37 @@ static int	add_C(t_cub *cub)
 static void	check_rgb_len(t_cub *cub)
 {
 	int		i;
-	char	**F;
-	char	**C;
+	char	**c;
+	char	**f;
 
-	if (!cub->F || !cub->C)
+	if (!cub->f || !cub->c)
 		clean_exit("Error: invalid RGB\n", cub->garbage_collector, cub);
-	i = 0;
-	F = cub->F;
-	C = cub->C;
-	while (cub->F[i])
+	i = -1;
+	f = cub->f;
+	c = cub->c;
+	while (cub->f[++i])
 	{
-		if (!cub->F[i][0])
+		if (!cub->f[i][0])
 			clean_exit("Error: invalid RGB\n", cub->garbage_collector, cub);
-		i++;
 	}
-	printf("i F== %d\n", i);
 	if (i != 3)
 		clean_exit("Error: invalid RGB\n", cub->garbage_collector, cub);
-	i = 0;
-	while (cub->C[i])
+	i = -1;
+	while (cub->c[++i])
 	{
-		if (!cub->C[i][0])
+		if (!cub->c[i][0])
 			clean_exit("Error: invalid RGB\n", cub->garbage_collector, cub);
-		i++;
 	}
-		printf("i F== %d\n", i);
 	if (i != 3)
-	{
 		clean_exit("Error: invalid RGB\n", cub->garbage_collector, cub);
-	}
 }
 
 int	add_rgb(t_cub *cub, char *str)
 {
 	check_rgb_len(cub);
 	if (ft_strncmp(str, "F", 1))
-		add_F(cub);
+		add_f(cub);
 	else if (ft_strncmp(str, "C", 1))
-		add_C(cub);
+		add_c(cub);
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: lnicolof <lnicolof@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/02 15:20:33 by lnicolof          #+#    #+#             */
-/*   Updated: 2024/10/23 15:47:10 by lnicolof         ###   ########.fr       */
+/*   Updated: 2024/10/24 19:56:56 by lnicolof         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,6 @@
 
 # include "cub_exec.h"
 # include <fcntl.h>
-# include <stdio.h>
-# include <stdlib.h>
-# include <unistd.h>
 
 typedef struct s_collector_node
 {
@@ -39,24 +36,24 @@ typedef struct s_cub
 	t_garbage_collector		*garbage_collector;
 	char					*file;
 	char					**maps;
-	int						count_NO;
-	int						count_SO;
-	int						count_EA;
-	int						count_WE;
-	int						count_C;
-	int						count_F;
-	char					*NO;
-	char					*SO;
-	char					*WE;
-	char					*EA;
-	char					**F;
-	char					**C;
-	int						C_R;
-	int						C_G;
-	int						C_B;
-	int						F_R;
-	int						F_G;
-	int						F_B;
+	int						count_no;
+	int						count_so;
+	int						count_ea;
+	int						count_we;
+	int						count_c;
+	int						count_f;
+	char					*no;
+	char					*so;
+	char					*we;
+	char					*ea;
+	char					**f;
+	char					**c;
+	int						c_r;
+	int						c_g;
+	int						c_b;
+	int						f_r;
+	int						f_g;
+	int						f_b;
 	int						player_x;
 	int						player_y;
 	char					player_cardinal;
@@ -91,6 +88,7 @@ char						**check_rgb(t_cub *cub, char *str);
 int							add_rgb(t_cub *cub, char *str);
 char						**realloc_tab(char **old, char *new, t_cub *cub);
 int							collect_all(t_cub *cub);
+void						remove_newline(char *str, t_cub *cub);
 
 // parsing maps
 void						collect_maps(t_cub *cub, char *str);

@@ -6,19 +6,20 @@
 /*   By: lnicolof <lnicolof@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/12 19:02:30 by lkhalifa          #+#    #+#             */
-/*   Updated: 2024/10/23 13:54:44 by lnicolof         ###   ########.fr       */
+/*   Updated: 2024/10/24 19:51:42 by lnicolof         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-
 void	set_texture(t_game *game, t_point pos, int x, int y)
 {
-	int	color;
+	unsigned int	color;
+	int				tex_x;
+	int				tex_y;
 
-	int tex_x = pos.x; 
-	int tex_y = pos.y;
+	tex_x = pos.x;
+	tex_y = pos.y;
 	if (tex_x >= 0 && tex_x < game->textures[game->ray->tex_id].width
 		&& tex_y >= 0 && tex_y < game->textures[game->ray->tex_id].height)
 	{
@@ -71,14 +72,15 @@ void	init_textures(t_cub *cub, t_game *g)
 	{
 		g->textures[i].width = T_SIZE;
 		g->textures[i].height = T_SIZE;
+		g->textures[i].pix = T_SIZE * T_SIZE;
 	}
-	g->textures[0].img_p = mlx_xpm_file_to_image(g->mlx, cub->NO,
+	g->textures[0].img_p = mlx_xpm_file_to_image(g->mlx, cub->no,
 			&g->textures[0].width, &g->textures[0].height);
-	g->textures[1].img_p = mlx_xpm_file_to_image(g->mlx, cub->SO,
+	g->textures[1].img_p = mlx_xpm_file_to_image(g->mlx, cub->so,
 			&g->textures[1].width, &g->textures[1].height);
-	g->textures[2].img_p = mlx_xpm_file_to_image(g->mlx, cub->WE,
+	g->textures[2].img_p = mlx_xpm_file_to_image(g->mlx, cub->we,
 			&g->textures[2].width, &g->textures[2].height);
-	g->textures[3].img_p = mlx_xpm_file_to_image(g->mlx, cub->EA,
+	g->textures[3].img_p = mlx_xpm_file_to_image(g->mlx, cub->ea,
 			&g->textures[3].width, &g->textures[3].height);
 	get_tex_addr(g);
 }

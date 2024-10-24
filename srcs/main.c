@@ -6,7 +6,7 @@
 /*   By: lnicolof <lnicolof@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/03 14:11:03 by lkhalifa          #+#    #+#             */
-/*   Updated: 2024/10/23 15:37:26 by lnicolof         ###   ########.fr       */
+/*   Updated: 2024/10/24 19:04:43 by lnicolof         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	main(int ac, char **av, char **env)
 {
-	t_cub *cub;
+	t_cub	*cub;
 
 	cub = malloc(sizeof(t_cub));
 	if (!cub)
@@ -27,7 +27,7 @@ int	main(int ac, char **av, char **env)
 	}
 	init_data(cub, ac, av);
 	start_game(cub);
-    gc_free(cub->garbage_collector);
-    free(cub);
+	gc_free(cub->garbage_collector);
+	free(cub);
 	return (0);
 }

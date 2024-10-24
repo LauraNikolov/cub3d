@@ -6,7 +6,7 @@
 /*   By: lnicolof <lnicolof@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/04 14:44:09 by lkhalifa          #+#    #+#             */
-/*   Updated: 2024/10/23 15:03:27 by lnicolof         ###   ########.fr       */
+/*   Updated: 2024/10/24 19:44:36 by lnicolof         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,4 +62,18 @@ int	clear_game(t_game *game)
 	mlx_destroy_window(game->mlx, game->win);
 	clear_all(game);
 	return (0);
+}
+
+void	init_img(t_cub *cub, t_game *g)
+{
+	g->img = malloc(sizeof(t_img));
+	if (!g->img)
+		print_error("Memory allocation failed.\n", g);
+	g->img->img_p = mlx_new_image(g->mlx, S_W, S_H);
+	if (!g->img->img_p)
+		print_error("Image creation failed.\n", g);
+	g->img->addr = mlx_get_data_addr(g->img->img_p, &g->img->bpp,
+			&g->img->size_line, &g->img->endian);
+	g->img->f_rgb = (cub->f_r << 16 | cub->f_g << 8 | cub->f_b);
+	g->img->c_rgb = (cub->c_r << 16 | cub->c_g << 8 | cub->c_b);
 }

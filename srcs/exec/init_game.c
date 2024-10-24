@@ -6,7 +6,7 @@
 /*   By: lnicolof <lnicolof@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/10 12:07:56 by lkhalifa          #+#    #+#             */
-/*   Updated: 2024/10/23 13:55:26 by lnicolof         ###   ########.fr       */
+/*   Updated: 2024/10/24 19:12:31 by lnicolof         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,18 +23,22 @@ static void	display_all(t_game game)
 	mlx_loop(game.mlx);
 }
 
-static void	init_img(t_cub *cub, t_game *g)
+static void	init_dir_we(t_game *game)
 {
-	g->img = malloc(sizeof(t_img));
-	if (!g->img)
-		print_error("Memory allocation failed.\n", g);
-	g->img->img_p = mlx_new_image(g->mlx, S_W, S_H);
-	if (!g->img->img_p)
-		print_error("Image creation failed.\n", g);
-	g->img->addr = mlx_get_data_addr(g->img->img_p, &g->img->bpp,
-			&g->img->size_line, &g->img->endian);
-	g->img->f_rgb = (cub->F_R << 16 | cub->F_G << 8 | cub->F_B);
-	g->img->c_rgb = (cub->C_R << 16 | cub->C_G << 8 | cub->C_B);
+	if (game->cub->player_cardinal == 'W')
+	{
+		game->dir.x = -1.0;
+		game->dir.y = 0.0;
+		game->plane.x = 0.0;
+		game->plane.y = 0.66;
+	}
+	else if (game->cub->player_cardinal == 'E')
+	{
+		game->dir.x = 1.0;
+		game->dir.y = 0.0;
+		game->plane.x = 0.0;
+		game->plane.y = -0.66;
+	}
 }
 
 static void	init_dir(t_game *game)
@@ -53,25 +57,12 @@ static void	init_dir(t_game *game)
 		game->plane.x = 0.66;
 		game->plane.y = 0.0;
 	}
-	else if (game->cub->player_cardinal == 'W')
-	{
-		game->dir.x = -1.0;
-		game->dir.y = 0.0;
-		game->plane.x = 0.0;
-		game->plane.y = 0.66;
-	}
-	else if (game->cub->player_cardinal == 'E')
-	{
-		game->dir.x = 1.0;
-		game->dir.y = 0.0;
-		game->plane.x = 0.0;
-		game->plane.y = -0.66;
-	}
+	else
+		init_dir_we(game);
 }
 
 static void	init_game(t_cub *cub, t_game *game)
 {
-
 	game->cub = cub;
 	game->ray = ft_calloc(1, sizeof(t_ray));
 	if (!game->ray)

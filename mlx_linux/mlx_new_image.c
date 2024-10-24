@@ -65,7 +65,7 @@ void	*mlx_int_new_xshm_image(t_xvar *xvar,int width,int height,int format)
   img->data = img->shm.shmaddr = img->image->data = shmat(img->shm.shmid,0,0);
   if (img->data==(void *)-1)
     {
-      shmctl(img->shm.shmid,IPC_RMID,0);
+        shmctl(img->shm.shmid,IPC_RMID,0);
       XDestroyImage(img->image);
       free(img);
       return ((void *)0);
@@ -78,13 +78,13 @@ void	*mlx_int_new_xshm_image(t_xvar *xvar,int width,int height,int format)
     {
       XSetErrorHandler(save_handler);
       shmdt(img->data);
-      shmctl(img->shm.shmid,IPC_RMID,0);
+        shmctl(img->shm.shmid,IPC_RMID,0);
       XDestroyImage(img->image);
       free(img);
       return ((void *)0);
     }
   XSetErrorHandler(save_handler);
-  shmctl(img->shm.shmid,IPC_RMID,0);
+    shmctl(img->shm.shmid,IPC_RMID,0);
   if (xvar->pshm_format==format)
     {
       img->pix = XShmCreatePixmap(xvar->display,xvar->root,img->shm.shmaddr,

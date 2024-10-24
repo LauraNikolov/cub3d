@@ -6,7 +6,7 @@
 /*   By: lnicolof <lnicolof@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/08 16:14:30 by lnicolof          #+#    #+#             */
-/*   Updated: 2024/10/23 15:32:32 by lnicolof         ###   ########.fr       */
+/*   Updated: 2024/10/24 19:53:54 by lnicolof         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,22 +14,22 @@
 
 static void	parse_f_c(t_cub *cub, char *str)
 {
-	if (!cub->C && !ft_strncmp("C", str, 1))
+	if (!cub->c && !ft_strncmp("C", str, 1))
 	{
-		cub->C = check_rgb(cub, ft_substr(truncate_space(str, cub), 0,
+		cub->c = check_rgb(cub, ft_substr(truncate_space(str, cub), 0,
 					ft_strlen(str) - 1));
-		if (!cub->C)
+		if (!cub->c)
 		{
 			free(str);
 			get_next_line(0, 2);
 			clean_exit("Error: parse C\n", cub->garbage_collector, cub);
 		}
 	}
-	else if (!cub->F && !ft_strncmp("F", str, 1))
+	else if (!cub->f && !ft_strncmp("F", str, 1))
 	{
-		cub->F = check_rgb(cub, ft_substr(truncate_space(str, cub), 0,
+		cub->f = check_rgb(cub, ft_substr(truncate_space(str, cub), 0,
 					ft_strlen(str) - 1));
-		if (!cub->F)
+		if (!cub->f)
 		{
 			free(str);
 			get_next_line(0, 2);
@@ -43,23 +43,23 @@ static void	parse_cardinal(t_cub *cub, char *str)
 {
 	if (!ft_strncmp("NO ", str, 3))
 	{
-		cub->NO = truncate_space(str, cub);
-		cub->count_NO++;
+		cub->no = truncate_space(str, cub);
+		cub->count_no++;
 	}
 	else if (!ft_strncmp("SO ", str, 3))
 	{
-		cub->SO = truncate_space(str, cub);
-		cub->count_SO++;
+		cub->so = truncate_space(str, cub);
+		cub->count_so++;
 	}
 	else if (!ft_strncmp("WE ", str, 3))
 	{
-		cub->WE = truncate_space(str, cub);
-		cub->count_WE++;
+		cub->we = truncate_space(str, cub);
+		cub->count_we++;
 	}
 	else if (!ft_strncmp("EA ", str, 3))
 	{
-		cub->EA = truncate_space(str, cub);
-		cub->count_EA++;
+		cub->ea = truncate_space(str, cub);
+		cub->count_ea++;
 	}
 }
 
@@ -69,8 +69,8 @@ static void	check_valid_data(t_cub *cub, char *str)
 		&& ft_strncmp("EA ", str, 3) && ft_strncmp("WE ", str, 3)
 		&& ft_strncmp("F ", str, 2) && ft_strncmp("C ", str, 2))
 	{
-		if (cub->count_NO == 1 && cub->count_EA == 1 && cub->count_SO == 1
-			&& cub->count_WE == 1 && cub->count_C == 1 && cub->count_F == 1
+		if (cub->count_no == 1 && cub->count_ea == 1 && cub->count_so == 1
+			&& cub->count_we == 1 && cub->count_c == 1 && cub->count_f == 1
 			&& cub->new_line_maps == 1)
 		{
 			collect_maps(cub, str);
@@ -118,14 +118,14 @@ void	collect_data(t_cub *cub, char *str)
 	if (!ft_strncmp("F ", str, 2) || !ft_strncmp("C ", str, 2))
 	{
 		if (!ft_strncmp("F", str, 1))
-			cub->count_F++;
+			cub->count_f++;
 		if (!ft_strncmp("C", str, 1))
-			cub->count_C++;
+			cub->count_c++;
 		check_comas(cub, str);
 		parse_f_c(cub, str);
 	}
-	if (cub->count_EA > 1 || cub->count_NO > 1 || cub->count_WE > 1
-		|| cub->count_WE > 1)
+	if (cub->count_ea > 1 || cub->count_no > 1 || cub->count_we > 1
+		|| cub->count_we > 1)
 	{
 		free(str);
 		get_next_line(0, 2);

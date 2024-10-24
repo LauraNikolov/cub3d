@@ -1,9 +1,21 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   init.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: lnicolof <lnicolof@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/10/24 19:18:59 by lnicolof          #+#    #+#             */
+/*   Updated: 2024/10/24 19:42:58 by lnicolof         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "cub3d.h"
 
 int	collect_all(t_cub *cub)
 {
-	if (cub->count_NO == 1 && cub->count_EA == 1 && cub->count_SO == 1
-		&& cub->count_WE == 1 && cub->count_C == 1 && cub->count_F == 1)
+	if (cub->count_no == 1 && cub->count_ea == 1 && cub->count_so == 1
+		&& cub->count_we == 1 && cub->count_c == 1 && cub->count_f == 1)
 		return (1);
 	else
 		return (0);
